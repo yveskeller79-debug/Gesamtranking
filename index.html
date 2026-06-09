@@ -364,22 +364,30 @@ function findCol(row, keyword) {
 }
 
 function readBlock(rows, keyword) {
+  // Layout: each header row has 3 blocks: cols 0-3, 5-8, 10-13
+  // keyword is in col 2, 7, or 12; rank in col-2, name in col-1, value in col, trophy in col+1
+  const kwCols = [2, 7, 12];
   for (let ri = 0; ri < rows.length; ri++) {
-    const ci = findCol(rows[ri], keyword);
-    if (ci < 0) continue;
-    const result = [];
-    for (let i = ri + 1; i < ri + 5 && i < rows.length; i++) {
-      const r = rows[i];
-      const name = r[ci + 1];
-      if (name === '' || name === undefined) continue;
-      result.push({
-        rank:   r[ci],
-        name:   String(name),
-        value:  r[ci + 2],
-        trophy: r[ci + 3] === 1
-      });
+    for (const kc of kwCols) {
+      const cell = rows[ri][kc];
+      if (cell === undefined || cell === null) continue;
+      if (String(cell).trim() === String(keyword).trim()) {
+        const rankCol = kc - 2;
+        const result = [];
+        for (let i = ri + 1; i < ri + 5 && i < rows.length; i++) {
+          const r = rows[i];
+          const name = r[rankCol + 1];
+          if (name === '' || name === undefined || name === null) continue;
+          result.push({
+            rank:   r[rankCol],
+            name:   String(name),
+            value:  r[rankCol + 2],
+            trophy: r[rankCol + 3] === 1
+          });
+        }
+        if (result.length) return result;
+      }
     }
-    if (result.length) return result;
   }
   return [];
 }
@@ -462,7 +470,9 @@ async function main() {
     </div>`).join('');
 
   const verlaufIdx = rows.findIndex(r => String(r[0]).trim()==='Verlauf Anz. Pokale:');
-  const dateLabels = rows[verlaufIdx].slice(1).filter(c => c !== '');
+  // dates are 2 rows below header, player data starts 3 rows below
+  const dateRow = rows[verlaufIdx + 2];
+  const dateLabels = dateRow.slice(1).filter(c => c !== '' && c !== null && c !== undefined);
   document.getElementById('pokalLegend').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
@@ -471,7 +481,7 @@ async function main() {
     data: {
       labels: dateLabels,
       datasets: PLAYERS.map((p, pi) => {
-        const rowData = rows[verlaufIdx + 1 + pi];
+        const rowData = rows[verlaufIdx + 3 + pi];
         const vals = dateLabels.map((_,di) => rowData?.[di+1] ?? null).filter(v => v !== null && v !== '');
         return { label: p, data: vals, borderColor: PLAYER_COLORS[p],
           backgroundColor: PLAYER_COLORS[p] + '15', tension: 0.3, pointRadius: 4, borderWidth: 2 };
@@ -490,7 +500,7 @@ async function main() {
   const c = (title, kw) => buildCard(title, readBlock(rows, kw));
   document.getElementById('rankings').innerHTML =
     buildSection('cat-strich',  'Eichel.svg',  'Strich',
-      c('Total Striche',       'Total  Striche') +
+      c('Total Striche',       'Total\nStriche') +
       c('Total Berg',          'Total Berg') +
       c('ø Striche / Abend',   'ø Anzahl Striche/Abend') +
       c('ø Striche / Spiel',   'ø Anzahl Striche/Spiel') +
@@ -528,14 +538,16 @@ async function main() {
       c('JFK',                 'JFK'));
 
   const tsIdx = rows.findIndex(r => String(r[0]).trim()==='Verlauf Tagessiege');
+  // header row at tsIdx+1 has col numbers, player data starts at tsIdx+2
+  // use same dateLabels from Verlauf Pokale
   PLAYERS.forEach(p => {
     const pRow = rows.slice(tsIdx+1, tsIdx+10).find(r => String(r[0]).trim()===p);
     if (!pRow) return;
     const vals = dateLabels.map((_,i) => {
       const v = pRow[i+1];
-      return (v !== '' && v !== undefined) ? Number(v) : null;
+      return (v !== '' && v !== undefined && v !== null) ? Number(v) : null;
     }).filter(v => v !== null);
-    buildTsChart(p, dateLabels.slice(0, vals.length), vals);
+    if (vals.length) buildTsChart(p, dateLabels.slice(0, vals.length), vals);
   });
 
   document.getElementById('loading').style.display = 'none';
