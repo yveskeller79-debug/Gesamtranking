@@ -8,7 +8,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;1,300&family=DM+Mono:wght@400;500&display=swap');
 
   :root {
-    --green-dark: #1a3a2a;
+    --green-dark: #000000;
     --green-mid: #2d6147;
     --green-felt: #3a7d5a;
     --gold: #c9a84c;
@@ -151,8 +151,8 @@
     border-bottom-style: solid;
   }
   .cat-title span { opacity: 0.5; font-size: 1rem; }
-  .jass-icon { height: 1.6rem; width: auto; vertical-align: middle; background: var(--cream); border-radius: 4px; padding: 3px; opacity: 0.9; }
-  .jass-icon-sm { height: 1.1rem; margin-right: 0.1rem; }
+  .jass-icon { height: 3rem; width: auto; vertical-align: middle; background: #000; border-radius: 6px; padding: 4px; opacity: 1; }
+  .jass-icon-sm { height: 2rem; margin-right: 0.2rem; }
 
   /* Per-category colours */
   /* Strich — spade blue */
@@ -297,640 +297,250 @@
   <p>Saison 2026 / 2027</p>
 </header>
 
-<div class="podium-section">
-  <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-  <div class="podium">
-    <div class="podium-place place-3">
-      <div class="podium-name">Goonse</div>
-      <div class="podium-pokale">6 Pokale</div>
-      <div class="podium-bar">3.</div>
-      <div class="podium-base"></div>
-    </div>
-    <div class="podium-place place-1">
-      <div class="podium-name">Küng</div>
-      <div class="podium-pokale">16 Pokale</div>
-      <div class="podium-bar">1.</div>
-      <div class="podium-base"></div>
-    </div>
-    <div class="podium-place place-2">
-      <div class="podium-name">Chäli</div>
-      <div class="podium-pokale">14 Pokale</div>
-      <div class="podium-bar">2.</div>
-      <div class="podium-base"></div>
-    </div>
-    <div class="podium-place place-4">
-      <div class="podium-name">Fuchs</div>
-      <div class="podium-pokale">2 Pokale</div>
-      <div class="podium-bar">4.</div>
-      <div class="podium-base"></div>
-    </div>
+
+<div id="loading" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
+
+<div id="app" style="display:none;">
+  <div class="podium-section">
+    <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
+    <div class="podium" id="podium"></div>
   </div>
+
+  <main>
+    <div class="chart-section">
+      <div class="chart-wrap">
+        <div class="chart-title">Verlauf Anzahl Pokale</div>
+        <div class="chart-canvas-wrap"><canvas id="pokalChart"></canvas></div>
+        <div class="legend" id="pokalLegend"></div>
+      </div>
+    </div>
+    <div id="rankings"></div>
+    <div class="chart-section">
+      <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
+      <div class="tagessiege-grid" id="tagessiegeGrid"></div>
+    </div>
+  </main>
 </div>
-
-<main>
-
-  <!-- POKALE VERLAUF CHART -->
-  <div class="chart-section">
-    <div class="chart-wrap">
-      <div class="chart-title">Verlauf Anzahl Pokale</div>
-      <div class="chart-canvas-wrap">
-        <canvas id="pokalChart"></canvas>
-      </div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#c9a84c"></div>Küng</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#7ec8a4"></div>Chäli</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#e07070"></div>Goonse</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#8ab4d4"></div>Fuchs</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STRICH -->
-  <div class="cat-section cat-strich">
-    <div class="cat-title"><img src="Eichel.svg" class="jass-icon"> Strich</div>
-    <div class="table-grid">
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Striche</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Striche</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">45</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">43</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">41</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">25</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Berg</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Berg</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">13</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">11</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">10</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">6</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">ø Striche / Abend</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Ø</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">6.43</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">6.14</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">5.86</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">3.57</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">ø Striche / Spiel</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Ø</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">2.25</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">2.15</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">2.05</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">1.25</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Schneider</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">1</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">1</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Fuchs</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Kontermatch</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr><td class="rank-cell">1</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- PÜNKT -->
-  <div class="cat-section cat-puenkt">
-    <div class="cat-title"><img src="Schelle.svg" class="jass-icon"> Pünkt</div>
-    <div class="table-grid">
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Punkte</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">60'953</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">59'417</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">59'402</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">56'562</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">ø Punkte / Abend</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Ø</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">8'708</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">8'488</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">8'486</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">8'080</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">ø Punkte / Spiel</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Ø</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">3'048</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">2'971</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">2'970</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">2'828</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- MÄTSCH -->
-  <div class="cat-section cat-maetsch">
-    <div class="cat-title"><img src="Schilte.svg" class="jass-icon"> Mätsch</div>
-    <div class="table-grid">
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Anzahl Match</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">11</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">10</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">8</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">3</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Punkte Match*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">8'481</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">6'682</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">6'168</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">2'313</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Match 1-fach</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr><td class="rank-cell">1</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">—</td><td class="val-cell">—</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Match 2-fach</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">4</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">4</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">3</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">1</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Match 3-fach</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">6</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">3</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">2</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">1</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Match 4-fach</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">4</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">3</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Fuchs</td><td class="val-cell">1</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Chäli</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- WIISE -->
-  <div class="cat-section cat-wiise">
-    <div class="cat-title"><img src="Rose.svg" class="jass-icon"> Wiise</div>
-    <div class="table-grid">
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Punkte Weisen*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">6'610</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">4'620</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">4'460</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Küng</td><td class="val-cell">4'040</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Weisen 20er</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">44</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">42</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">37</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Küng</td><td class="val-cell">34</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Punkte Weisen 20er*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">2'460</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">2'420</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Goonse</td><td class="val-cell">2'160</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Küng</td><td class="val-cell">1'940</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Weisen 50er</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">12</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">6</td><td class="trophy-cell"></td></tr>
-            <tr class="rank-1"><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">6</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">5</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Punkte Weisen 50er*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">1'400</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">900</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Küng</td><td class="val-cell">800</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">500</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Weisen 100er</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Fuchs</td><td class="val-cell">5</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">5</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Küng</td><td class="val-cell">4</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">2</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Punkte Weisen 100er*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">1'400</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">1'300</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">1'300</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">600</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Weisen 150er</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">3</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">1</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Fuchs</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Küng</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Punkte Weisen 150er*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">1'350</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">600</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Fuchs</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Küng</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Weisen 200er</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Anz.</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">1</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Punkte Weisen 200er*</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Punkte</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">600</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Fuchs</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">0</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-    <p style="font-size:0.65rem; color:rgba(247,242,232,0.3); margin-top:0.8rem; padding-left:0.2rem;">
-      * Punkte inkl. Multiplikator: Eicheln 1×, Schelle/Schilte 2×, Une/Obe 3×, Rose 4×
-    </p>
-  </div>
-
-  <!-- ÜBRIGES -->
-  <div class="cat-section cat-uebrig">
-    <div class="cat-title"><img src="Eichel.svg" class="jass-icon jass-icon-sm"><img src="Schelle.svg" class="jass-icon jass-icon-sm"><img src="Schilte.svg" class="jass-icon jass-icon-sm"><img src="Rose.svg" class="jass-icon jass-icon-sm"> Übriges</div>
-    <div class="table-grid">
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Tagessiege</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Siege</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">6</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Küng</td><td class="val-cell">4</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Chäli</td><td class="val-cell">4</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">2</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Rundensiege</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Siege</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">11</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">11</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">10</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">8</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Anzahl Teilnahmen</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Abende</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">7</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Fuchs</td><td class="val-cell">7</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Goonse</td><td class="val-cell">7</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">7</td><td class="trophy-cell">🏆</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">Total Spenden</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">CHF</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">80</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">100</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">120</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">280</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">ø Spende / Abend</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">CHF</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">11.43</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">2</td><td class="name-cell">Goonse</td><td class="val-cell">14.29</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Chäli</td><td class="val-cell">17.14</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Fuchs</td><td class="val-cell">40.00</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-title">JFK (tiefer = besser)</div>
-        <table>
-          <thead><tr><th>#</th><th>Spieler</th><th class="val-cell">JFK</th><th class="trophy-cell">🏆</th></tr></thead>
-          <tbody>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Küng</td><td class="val-cell">4</td><td class="trophy-cell">🏆</td></tr>
-            <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Chäli</td><td class="val-cell">4</td><td class="trophy-cell">🏆</td></tr>
-            <tr><td class="rank-cell">3</td><td class="name-cell">Fuchs</td><td class="val-cell">5</td><td class="trophy-cell"></td></tr>
-            <tr><td class="rank-cell">4</td><td class="name-cell">Goonse</td><td class="val-cell">6</td><td class="trophy-cell"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- VERLAUF TAGESSIEGE -->
-  <div class="chart-section">
-    <p class="section-label" style="margin-bottom:1rem;">Verlauf Tagessiege</p>
-    <div class="tagessiege-grid">
-      <div class="chart-wrap">
-        <div class="chart-title" style="color:#c9a84c;">Küng</div>
-        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_kueng"></canvas></div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" style="color:#7ec8a4;">Chäli</div>
-        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_chaeli"></canvas></div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" style="color:#e07070;">Goonse</div>
-        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_goonse"></canvas></div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" style="color:#8ab4d4;">Fuchs</div>
-        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_fuchs"></canvas></div>
-      </div>
-    </div>
-  </div>
-
-</main>
 
 <footer>Jassstatistik Wädi 2026/2027 — automatisch aus Excel generiert</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const labels = ['21.03.', '30.03.', '11.05.', '16.05.', '01.06.', '05.06.', '08.06.'];
-const data = {
-  Küng:   [3, 1, 3, 2, 4, 17, 16],
-  Chäli:  [22, 25, 24, 14, 12, 17, 14],
-  Goonse: [14, 16, 16, 13, 15, 6, 6],
-  Fuchs:  [3, 2, 5, 5, 4, 4, 2],
-};
+const EXCEL_FILE = 'Statistik_Jassen.xlsx';
+const PLAYERS = ['Küng', 'Chäli', 'Goonse', 'Fuchs'];
+const PLAYER_COLORS = { 'Küng':'#c9a84c', 'Chäli':'#7ec8a4', 'Goonse':'#e07070', 'Fuchs':'#8ab4d4' };
 
-const ctx = document.getElementById('pokalChart').getContext('2d');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels,
-    datasets: [
-      { label: 'Küng',   data: data.Küng,   borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.08)',  tension: 0.3, pointRadius: 4, borderWidth: 2 },
-      { label: 'Chäli',  data: data.Chäli,  borderColor: '#7ec8a4', backgroundColor: 'rgba(126,200,164,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
-      { label: 'Goonse', data: data.Goonse, borderColor: '#e07070', backgroundColor: 'rgba(224,112,112,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
-      { label: 'Fuchs',  data: data.Fuchs,  borderColor: '#8ab4d4', backgroundColor: 'rgba(138,180,212,0.08)', tension: 0.3, pointRadius: 4, borderWidth: 2 },
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color: 'rgba(247,242,232,0.4)', font: { family: 'DM Mono', size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-      y: { ticks: { color: 'rgba(247,242,232,0.4)', font: { family: 'DM Mono', size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
-    }
+async function loadExcel() {
+  const resp = await fetch(EXCEL_FILE);
+  const buf  = await resp.arrayBuffer();
+  const wb   = XLSX.read(buf, { type: 'array' });
+  const ws   = wb.Sheets['Gesamtranking Print'];
+  return XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+}
+
+function fmt(v) {
+  if (v === null || v === '' || v === undefined) return '—';
+  if (typeof v === 'number') {
+    if (Number.isInteger(v)) return v.toLocaleString('de-CH');
+    return v.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
-});
+  return String(v);
+}
 
-const tsLabels = ['1', '2', '3', '4', '5', '6', '7'];
+function findCol(row, keyword) {
+  return row.findIndex(c => String(c).trim() === String(keyword).trim());
+}
 
-function makeTsChart(id, color, data) {
-  const ctx = document.getElementById(id).getContext('2d');
+// Find a ranking block by its header keyword anywhere in the sheet
+// Returns array of {rank, name, value, trophy}
+function readBlock(rows, keyword) {
+  for (let ri = 0; ri < rows.length; ri++) {
+    const ci = findCol(rows[ri], keyword);
+    if (ci < 0) continue;
+    // header row found at rows[ri][ci], data starts at ri+1
+    const result = [];
+    for (let i = ri + 1; i < ri + 5 && i < rows.length; i++) {
+      const r = rows[i];
+      const name = r[ci + 1];
+      if (name === '' || name === undefined) continue;
+      result.push({
+        rank:   r[ci],
+        name:   String(name),
+        value:  r[ci + 2],
+        trophy: r[ci + 3] === 1
+      });
+    }
+    if (result.length) return result;
+  }
+  return [];
+}
+
+function buildCard(title, data) {
+  if (!data.length) return '';
+  const topVal = data[0].value;
+  const tbody = data.map(r => {
+    const isTop = topVal !== '' && topVal !== 0 && topVal !== null && r.value === topVal;
+    return `<tr class="${isTop ? 'rank-1' : ''}">
+      <td class="rank-cell">${r.rank ?? '—'}</td>
+      <td class="name-cell">${r.name}</td>
+      <td class="val-cell">${fmt(r.value)}</td>
+      <td class="trophy-cell">${r.trophy ? '🏆' : ''}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="stat-card">
+    <div class="stat-card-title">${title}</div>
+    <table><thead><tr><th>#</th><th>Spieler</th><th class="val-cell">Wert</th><th class="trophy-cell">🏆</th></tr></thead>
+    <tbody>${tbody}</tbody></table>
+  </div>`;
+}
+
+function buildSection(cls, icon, title, cards) {
+  return `<div class="cat-section ${cls}">
+    <div class="cat-title"><img src="${icon}" class="jass-icon"> ${title}</div>
+    <div class="table-grid">${cards}</div>
+  </div>`;
+}
+
+function buildTsChart(playerName, labels, data) {
+  const id = 'ts_' + playerName.replace(/[^a-z]/gi,'').toLowerCase();
+  const color = PLAYER_COLORS[playerName];
+  const wrap = document.createElement('div');
+  wrap.className = 'chart-wrap';
+  wrap.innerHTML = `<div class="chart-title" style="color:${color};">${playerName}</div>
+    <div class="chart-canvas-wrap" style="height:160px;"><canvas id="${id}"></canvas></div>`;
+  document.getElementById('tagessiegeGrid').appendChild(wrap);
   const pointColors = data.map(v => v === 1 ? '#4caf7d' : v === 0 ? '#c9a84c' : '#e07070');
-  new Chart(ctx, {
+  new Chart(document.getElementById(id).getContext('2d'), {
     type: 'line',
-    data: {
-      labels: tsLabels,
-      datasets: [{
-        data,
-        borderColor: color,
-        backgroundColor: 'transparent',
-        tension: 0,
-        pointRadius: 7,
-        pointHoverRadius: 9,
-        pointBackgroundColor: pointColors,
-        pointBorderColor: pointColors,
-        borderWidth: 2,
-        segment: {
-          borderColor: ctx => {
-            const v = ctx.p1.parsed.y;
-            return v === 1 ? '#4caf7d' : v === -1 ? '#e07070' : '#c9a84c';
-          }
-        }
-      }]
-    },
+    data: { labels, datasets: [{ data, borderColor: '#a0a0c0', backgroundColor: 'transparent',
+      tension: 0, pointRadius: 7, pointHoverRadius: 9, pointBackgroundColor: pointColors,
+      pointBorderColor: pointColors, borderWidth: 2 }] },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const v = ctx.parsed.y;
-              return v === 1 ? '✓ Sieg' : v === 0 ? '– Unentschieden' : '✗ Niederlage';
-            }
-          }
-        }
-      },
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        label: c => c.parsed.y===1 ? '✓ Sieg' : c.parsed.y===0 ? '– Unentschieden' : '✗ Niederlage'
+      }}},
       scales: {
-        x: {
-          ticks: { color: 'rgba(247,242,232,0.4)', font: { family: 'DM Mono', size: 10 } },
-          grid: { color: 'rgba(255,255,255,0.05)' }
-        },
-        y: {
-          min: -1.5, max: 1.5,
-          ticks: {
-            color: 'rgba(247,242,232,0.45)',
-            font: { family: 'DM Mono', size: 10 },
-            stepSize: 1,
-            callback: v => v === 1 ? 'Sieg' : v === 0 ? 'Unentsch.' : v === -1 ? 'Niederlage' : ''
-          },
-          grid: {
-            color: ctx => ctx.tick.value === 0 ? 'rgba(247,242,232,0.15)' : 'rgba(255,255,255,0.05)'
-          }
+        x: { ticks: { color:'rgba(247,242,232,0.4)', font:{family:'DM Mono',size:10} }, grid:{color:'rgba(255,255,255,0.05)'} },
+        y: { min:-1.5, max:1.5,
+          ticks: { color:'rgba(247,242,232,0.45)', font:{family:'DM Mono',size:10}, stepSize:1,
+            callback: v => v===1?'Sieg':v===0?'Unentsch.':v===-1?'Niederlage':'' },
+          grid: { color: c => c.tick.value===0?'rgba(247,242,232,0.15)':'rgba(255,255,255,0.05)' }
         }
       }
     }
   });
 }
 
-makeTsChart('ts_kueng',  '#c9a84c', [-1, -1, 0, -1, 1, 1, 1]);
-makeTsChart('ts_chaeli', '#7ec8a4', [1, 1, 0, -1, -1, 1, -1]);
-makeTsChart('ts_goonse', '#e07070', [1, 1, 0, 1, 1, -1, 1]);
-makeTsChart('ts_fuchs',  '#8ab4d4', [-1, -1, 0, 1, -1, -1, -1]);
+async function main() {
+  const rows = await loadExcel();
+
+  // ── Gesamtwertung (Podium) ──
+  const gIdx = rows.findIndex(r => String(r[5]).trim()==='Ranking' && String(r[6]).trim()==='Spieler' && String(r[7]).trim()==='Anzahl Pokale');
+  const gesamtData = [];
+  for (let i = gIdx+1; i < gIdx+5 && i < rows.length; i++) {
+    const r = rows[i];
+    if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
+  }
+  const sorted = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const podiumOrder = [sorted[1], sorted[0], sorted[2], sorted[3]];
+  const podiumClasses = ['place-2','place-1','place-3','place-4'];
+  document.getElementById('podium').innerHTML = podiumOrder.map((p,i) => `
+    <div class="podium-place ${podiumClasses[i]}">
+      <div class="podium-name">${p.name}</div>
+      <div class="podium-pokale">${p.value} Pokale</div>
+      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-base"></div>
+    </div>`).join('');
+
+  // ── Verlauf Pokale ──
+  const verlaufIdx = rows.findIndex(r => String(r[0]).trim()==='Verlauf Anz. Pokale:');
+  const dateLabels = rows[verlaufIdx].slice(1).filter(c => c !== '');
+  document.getElementById('pokalLegend').innerHTML = PLAYERS.map(p =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
+  ).join('');
+  new Chart(document.getElementById('pokalChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: dateLabels,
+      datasets: PLAYERS.map((p, pi) => {
+        const rowData = rows[verlaufIdx + 1 + pi];
+        const vals = dateLabels.map((_,di) => rowData?.[di+1] ?? null).filter(v => v !== null && v !== '');
+        return { label: p, data: vals, borderColor: PLAYER_COLORS[p],
+          backgroundColor: PLAYER_COLORS[p] + '15', tension: 0.3, pointRadius: 4, borderWidth: 2 };
+      })
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
+        y: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} }
+      }
+    }
+  });
+
+  // ── Rankings ──
+  const c = (title, kw) => buildCard(title, readBlock(rows, kw));
+  document.getElementById('rankings').innerHTML =
+    buildSection('cat-strich',  'Eichel.svg',  'Strich',
+      c('Total Striche',       'Total  Striche') +
+      c('Total Berg',          'Total Berg') +
+      c('ø Striche / Abend',   'ø Anzahl Striche/Abend') +
+      c('ø Striche / Spiel',   'ø Anzahl Striche/Spiel') +
+      c('Total Schneider',     'Total Schneider') +
+      c('Total Kontermatch',   'Total Kontermatch')) +
+    buildSection('cat-puenkt', 'Schelle.svg', 'Pünkt',
+      c('Total Punkte',        'Total Punkte') +
+      c('ø Punkte / Abend',    'ø Anzahl Punkte/Abend') +
+      c('ø Punkte / Spiel',    'ø Anzahl Punkte/Spiel')) +
+    buildSection('cat-maetsch','Schilte.svg', 'Mätsch',
+      c('Total Anzahl Match',  'Total Anzahl Match') +
+      c('Total Punkte Match*', 'Total Punkte Match*') +
+      c('Match 1-fach',        'Anzahl Match 1fach') +
+      c('Match 2-fach',        'Anzahl Match 2fach') +
+      c('Match 3-fach',        'Anzahl Match 3fach') +
+      c('Match 4-fach',        'Anzahl Match 4fach')) +
+    buildSection('cat-wiise',  'Rose.svg',    'Wiise',
+      c('Total Punkte Weisen*','Total Punkte Weisen*') +
+      c('Anzahl Weisen 20er',  'Anzahl Weisen 20er') +
+      c('Punkte Weisen 20er*', 'Punkte Weisen 20er*') +
+      c('Anzahl Weisen 50er',  'Anzahl Weisen 50er') +
+      c('Punkte Weisen 50er*', 'Punkte Weisen 50er*') +
+      c('Anzahl Weisen 100er', 'Anz. Weisen 100er') +
+      c('Punkte Weisen 100er*','Punkte Weisen 100er*') +
+      c('Anzahl Weisen 150er', 'Anz. Weisen 150er') +
+      c('Punkte Weisen 150er*','Punkte Weisen 150er*') +
+      c('Anzahl Weisen 200er', 'Anz. Weisen 200er') +
+      c('Punkte Weisen 200er*','Punkte Weisen 200er*')) +
+    buildSection('cat-uebrig', 'Eichel.svg',  'Übriges',
+      c('Anzahl Tagessiege',   'Anz. Tagessiege') +
+      c('Anzahl Rundensiege',  'Anz. Rundensiege') +
+      c('Anzahl Teilnahmen',   'Anz. Teilnahmen') +
+      c('Total Spenden',       'Total Spenden') +
+      c('ø Spende / Abend',    'ø Spende/Abend') +
+      c('JFK',                 'JFK'));
+
+  // ── Verlauf Tagessiege ──
+  const tsIdx = rows.findIndex(r => String(r[0]).trim()==='Verlauf Tagessiege');
+  PLAYERS.forEach(p => {
+    const pRow = rows.slice(tsIdx+1, tsIdx+10).find(r => String(r[0]).trim()===p);
+    if (!pRow) return;
+    const vals = dateLabels.map((_,i) => {
+      const v = pRow[i+1];
+      return (v !== '' && v !== undefined) ? Number(v) : null;
+    }).filter(v => v !== null);
+    buildTsChart(p, dateLabels.slice(0, vals.length), vals);
+  });
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+main().catch(err => {
+  document.getElementById('loading').textContent = 'Fehler beim Laden: ' + err.message;
+});
 </script>
 </body>
 </html>
