@@ -371,7 +371,9 @@ function readBlock(rows, keyword) {
     for (const kc of kwCols) {
       const cell = rows[ri][kc];
       if (cell === undefined || cell === null) continue;
-      if (String(cell).trim() === String(keyword).trim()) {
+      const cellNorm = String(cell).replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+      const kwNorm = String(keyword).replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+      if (cellNorm === kwNorm) {
         const rankCol = kc - 2;
         const result = [];
         for (let i = ri + 1; i < ri + 5 && i < rows.length; i++) {
@@ -500,7 +502,7 @@ async function main() {
   const c = (title, kw) => buildCard(title, readBlock(rows, kw));
   document.getElementById('rankings').innerHTML =
     buildSection('cat-strich',  'Eichel.svg',  'Strich',
-      c('Total Striche',       'Total\nStriche') +
+      c('Total Striche',       'Total Striche') +
       c('Total Berg',          'Total Berg') +
       c('ø Striche / Abend',   'ø Anzahl Striche/Abend') +
       c('ø Striche / Spiel',   'ø Anzahl Striche/Spiel') +
