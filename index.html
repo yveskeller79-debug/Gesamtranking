@@ -413,10 +413,13 @@ function buildCard(title, data) {
 }
 
 function buildSection(cls, icon, title, cards) {
-  return `<div class="cat-section ${cls}">
-    <div class="cat-title"><img src="${icon}" class="jass-icon"> ${title}</div>
-    <div class="table-grid">${cards}</div>
-  </div>`;
+  const iconHtml = icon === null
+    ? '<img src="Eichel.svg" class="jass-icon jass-icon-sm"><img src="Schelle.svg" class="jass-icon jass-icon-sm"><img src="Schilte.svg" class="jass-icon jass-icon-sm"><img src="Rose.svg" class="jass-icon jass-icon-sm">'
+    : '<img src="' + icon + '" class="jass-icon">';
+  return '<div class="cat-section ' + cls + '">' +
+    '<div class="cat-title">' + iconHtml + ' ' + title + '</div>' +
+    '<div class="table-grid">' + cards + '</div>' +
+    '</div>';
 }
 
 function buildTsChart(playerName, labels, data) {
@@ -530,7 +533,7 @@ async function main() {
       c('Punkte Weisen 150er*','Punkte Weisen 150er*') +
       c('Anzahl Weisen 200er', 'Anz. Weisen 200er') +
       c('Punkte Weisen 200er*','Punkte Weisen 200er*')) +
-    buildSection('cat-uebrig', 'Eichel.svg',  'Übriges',
+    buildSection('cat-uebrig', null, 'Übriges',
       c('Anzahl Tagessiege',   'Anz. Tagessiege') +
       c('Anzahl Rundensiege',  'Anz. Rundensiege') +
       c('Anzahl Teilnahmen',   'Anz. Teilnahmen') +
