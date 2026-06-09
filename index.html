@@ -151,7 +151,7 @@
     border-bottom-style: solid;
   }
   .cat-title span { opacity: 0.5; font-size: 1rem; }
-  .jass-icon { height: 1.6rem; width: auto; vertical-align: middle; filter: brightness(0) invert(1); opacity: 0.75; }
+  .jass-icon { height: 1.6rem; width: auto; vertical-align: middle; background: var(--cream); border-radius: 4px; padding: 3px; opacity: 0.9; }
   .jass-icon-sm { height: 1.1rem; margin-right: 0.1rem; }
 
   /* Per-category colours */
@@ -276,6 +276,12 @@
     color: rgba(247,242,232,0.2);
     letter-spacing: 0.1em;
     border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .tagessiege-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   @media (max-width: 600px) {
@@ -798,6 +804,29 @@
     </div>
   </div>
 
+  <!-- VERLAUF TAGESSIEGE -->
+  <div class="chart-section">
+    <p class="section-label" style="margin-bottom:1rem;">Verlauf Tagessiege</p>
+    <div class="tagessiege-grid">
+      <div class="chart-wrap">
+        <div class="chart-title" style="color:#c9a84c;">Küng</div>
+        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_kueng"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title" style="color:#7ec8a4;">Chäli</div>
+        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_chaeli"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title" style="color:#e07070;">Goonse</div>
+        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_goonse"></canvas></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title" style="color:#8ab4d4;">Fuchs</div>
+        <div class="chart-canvas-wrap" style="height:160px;"><canvas id="ts_fuchs"></canvas></div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer>Jassstatistik Wädi 2026/2027 — automatisch aus Excel generiert</footer>
@@ -834,6 +863,74 @@ new Chart(ctx, {
     }
   }
 });
+
+const tsLabels = ['1', '2', '3', '4', '5', '6', '7'];
+
+function makeTsChart(id, color, data) {
+  const ctx = document.getElementById(id).getContext('2d');
+  const pointColors = data.map(v => v === 1 ? '#4caf7d' : v === 0 ? '#c9a84c' : '#e07070');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: tsLabels,
+      datasets: [{
+        data,
+        borderColor: color,
+        backgroundColor: 'transparent',
+        tension: 0,
+        pointRadius: 7,
+        pointHoverRadius: 9,
+        pointBackgroundColor: pointColors,
+        pointBorderColor: pointColors,
+        borderWidth: 2,
+        segment: {
+          borderColor: ctx => {
+            const v = ctx.p1.parsed.y;
+            return v === 1 ? '#4caf7d' : v === -1 ? '#e07070' : '#c9a84c';
+          }
+        }
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return v === 1 ? '✓ Sieg' : v === 0 ? '– Unentschieden' : '✗ Niederlage';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: 'rgba(247,242,232,0.4)', font: { family: 'DM Mono', size: 10 } },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        },
+        y: {
+          min: -1.5, max: 1.5,
+          ticks: {
+            color: 'rgba(247,242,232,0.45)',
+            font: { family: 'DM Mono', size: 10 },
+            stepSize: 1,
+            callback: v => v === 1 ? 'Sieg' : v === 0 ? 'Unentsch.' : v === -1 ? 'Niederlage' : ''
+          },
+          grid: {
+            color: ctx => ctx.tick.value === 0 ? 'rgba(247,242,232,0.15)' : 'rgba(255,255,255,0.05)'
+          }
+        }
+      }
+    }
+  });
+}
+
+makeTsChart('ts_kueng',  '#c9a84c', [-1, -1, 0, -1, 1, 1, 1]);
+makeTsChart('ts_chaeli', '#7ec8a4', [1, 1, 0, -1, -1, 1, -1]);
+makeTsChart('ts_goonse', '#e07070', [1, 1, 0, 1, 1, -1, 1]);
+makeTsChart('ts_fuchs',  '#8ab4d4', [-1, -1, 0, 1, -1, -1, -1]);
 </script>
 </body>
 </html>
