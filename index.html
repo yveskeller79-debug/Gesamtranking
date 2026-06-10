@@ -392,11 +392,11 @@
     background: rgba(201,168,76,0.07);
   }
   .ea-block table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  .ea-block th { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,242,232,0.35); padding: 0.45rem 0.9rem; text-align: left; border-bottom: 1px solid rgba(201,168,76,0.1); }
-  .ea-block td { padding: 0.5rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .ea-block th { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(247,242,232,0.5); padding: 0.45rem 0.9rem; text-align: center; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  .ea-block td { padding: 0.5rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: center; }
   .ea-block tr:last-child td { border-bottom: none; }
   .ea-name { font-family: 'Fraunces', serif; font-weight: 700; }
-  .ea-num { text-align: right; }
+  .ea-num { text-align: center; }
   .ea-pos { color: #4caf7d; }
   .ea-neg { color: #e07070; }
   .ea-full { grid-column: 1 / -1; }
@@ -1936,17 +1936,37 @@ async function loadEinzelabend(filename, label, btn) {
           </table>
         </div>
 
-        <!-- Schneider -->
-        ${schneider.length ? `<div class="ea-block">
-          <div class="ea-block-title">Schneider</div>
-          <table>
-            <thead><tr><th>Spieler</th><th class="ea-num">Anzahl</th></tr></thead>
-            <tbody>${schneider.map(s => `<tr>
-              <td class="ea-name" style="${teamBg(s.name)}">${s.name}</td>
-              <td class="ea-num" style="${teamBg(s.name)}">${n(s.anz)}</td>
-            </tr>`).join('')}</tbody>
-          </table>
-        </div>` : ''}
+        <!-- Gespielte Farben -->
+        <div class="ea-block">
+          <div class="ea-block-title">Gespielte Farben</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px 2px;font-size:10px;color:rgba(247,242,232,0.5);">
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#4a7c3f;"></span>Eichlen</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#8B5E3C;"></span>Schelle</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#A8A8A8;"></span>Schilten</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#D4B800;"></span>Rose</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#5DADE2;"></span>Une</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#1A3A6B;"></span>Obe</span>
+          </div>
+          <div style="position:relative;height:180px;padding:4px 10px 10px;">
+            <canvas id="${chartId}_farben" role="img" aria-label="Gespielte Farben pro Spieler">Gespielte Farben pro Spieler.</canvas>
+          </div>
+        </div>
+
+        <!-- Anzahl Weis nach Farben -->
+        <div class="ea-block">
+          <div class="ea-block-title">Anzahl Weis nach Farben</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px 2px;font-size:10px;color:rgba(247,242,232,0.5);">
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#4a7c3f;"></span>Eichlen</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#8B5E3C;"></span>Schelle</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#A8A8A8;"></span>Schilten</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#D4B800;"></span>Rose</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#5DADE2;"></span>Une</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#1A3A6B;"></span>Obe</span>
+          </div>
+          <div style="position:relative;height:180px;padding:4px 10px 10px;">
+            <canvas id="${chartId}_weis" role="img" aria-label="Anzahl Weis nach Farben pro Spieler">Anzahl Weis nach Farben pro Spieler.</canvas>
+          </div>
+        </div>
 
       </div>`;
 
@@ -2010,6 +2030,64 @@ async function loadEinzelabend(filename, label, btn) {
             x: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} },
             y: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} },
               max: Math.max(...totalsArr) * 1.2 }
+          }
+        }
+      });
+    });
+
+    // Gespielte Farben chart
+    requestAnimationFrame(() => {
+      const canvasFarben = document.getElementById(chartId + '_farben');
+      if (!canvasFarben) return;
+      new Chart(canvasFarben, {
+        type: 'bar',
+        data: {
+          labels: players.map(p => p.name),
+          datasets: [
+            { label:'Eichlen',  data: players.map(p => Number(p.vh[0])||0), backgroundColor:'#4a7c3f' },
+            { label:'Schelle',  data: players.map(p => Number(p.vh[1])||0), backgroundColor:'#8B5E3C' },
+            { label:'Schilten', data: players.map(p => Number(p.vh[2])||0), backgroundColor:'#A8A8A8' },
+            { label:'Rose',     data: players.map(p => Number(p.vh[3])||0), backgroundColor:'#D4B800' },
+            { label:'Une',      data: players.map(p => Number(p.vh[4])||0), backgroundColor:'#5DADE2' },
+            { label:'Obe',      data: players.map(p => Number(p.vh[5])||0), backgroundColor:'#1A3A6B' },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 10 } },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} },
+            y: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} } }
+          }
+        }
+      });
+    });
+
+    // Anzahl Weis nach Farben chart
+    requestAnimationFrame(() => {
+      const canvasWeis = document.getElementById(chartId + '_weis');
+      if (!canvasWeis) return;
+      new Chart(canvasWeis, {
+        type: 'bar',
+        data: {
+          labels: players.map(p => p.name),
+          datasets: [
+            { label:'Eichlen',  data: players.map(p => Number(p.weisen[0])||0), backgroundColor:'#4a7c3f' },
+            { label:'Schelle',  data: players.map(p => Number(p.weisen[1])||0), backgroundColor:'#8B5E3C' },
+            { label:'Schilten', data: players.map(p => Number(p.weisen[2])||0), backgroundColor:'#A8A8A8' },
+            { label:'Rose',     data: players.map(p => Number(p.weisen[3])||0), backgroundColor:'#D4B800' },
+            { label:'Une',      data: players.map(p => Number(p.weisen[4])||0), backgroundColor:'#5DADE2' },
+            { label:'Obe',      data: players.map(p => Number(p.weisen[5])||0), backgroundColor:'#1A3A6B' },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 10 } },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} },
+            y: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} } }
           }
         }
       });
