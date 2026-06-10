@@ -1706,7 +1706,7 @@ async function loadEinzelabend(filename, label, btn) {
   content.innerHTML = '<div style="text-align:center; color:rgba(247,242,232,0.4); padding:4rem;">Wird geladen…</div>';
 
   try {
-    const resp = await fetch(filename);
+    const resp = await fetch(encodeURIComponent(filename).replace(/%2F/g, '/'));
     const buf = await resp.arrayBuffer();
     const wb = XLSX.read(buf, { type: 'array', cellDates: true });
     const ws = wb.Sheets['Einzelabend'];
