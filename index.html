@@ -797,9 +797,9 @@ async function main() {
     type: 'line',
     data: {
       labels: dateLabels,
-      datasets: PLAYERS.map((p, pi) => {
-        const rowData = rows[verlaufIdx + 3 + pi];
-        const vals = dateLabels.map((_,di) => rowData?.[di+1] ?? null).filter(v => v !== null && v !== '');
+      datasets: PLAYERS.map((p) => {
+        const rowData = rows.slice(verlaufIdx + 3, verlaufIdx + 8).find(r => String(r[0]).trim() === p);
+        const vals = rowData ? dateLabels.map((_,di) => rowData[di+1] ?? null).filter(v => v !== null && v !== '') : [];
         return { label: p, data: vals, borderColor: PLAYER_COLORS[p],
           backgroundColor: PLAYER_COLORS[p] + '15', tension: 0.3, pointRadius: 4, borderWidth: 2 };
       })
