@@ -394,7 +394,7 @@
     background: rgba(201,168,76,0.07);
   }
   .ea-block table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  .ea-block th { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(247,242,232,0.5); padding: 0.45rem 0.9rem; text-align: center; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  .ea-block th { font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(247,242,232,0.5); padding: 0.45rem 0.9rem; text-align: center; border-bottom: 1px solid rgba(201,168,76,0.1); }
   .ea-block td { padding: 0.5rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: center; }
   .ea-block tr:last-child td { border-bottom: none; }
   .ea-name { font-family: 'Fraunces', serif; font-weight: 700; }
@@ -1796,6 +1796,11 @@ async function loadEinzelabend(filename, label, btn) {
 
     const n = v => (v === '' || v === null || v === undefined) ? '—' : Math.round(Number(v)).toLocaleString('de-CH');
     const pct = v => (v === '' || v === null) ? '—' : Math.round(Number(v)*100) + '%';
+    const absDiff = (a, b) => {
+      const d = Math.abs(Math.round(Number(a)) - Math.round(Number(b)));
+      if (d === 0) return '<span>0</span>';
+      return '<span class="ea-pos">+' + d.toLocaleString('de-CH') + '</span>';
+    };
     const diff = v => {
       const num = Number(v);
       if (isNaN(num) || num === 0) return '<span>0</span>';
@@ -1870,37 +1875,37 @@ async function loadEinzelabend(filename, label, btn) {
                 <td>Striche</td>
                 <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(striche1)}</td>
                 <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(striche2)}</td>
-                <td class="ea-num">${diff(striche1-striche2)}</td>
+                <td class="ea-num">${absDiff(striche1,striche2)}</td>
               </tr>
               <tr>
                 <td>Berg</td>
                 <td class="ea-num" style="${berg1>berg2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg1)}</td>
                 <td class="ea-num" style="${berg2>berg1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg2)}</td>
-                <td class="ea-num">${diff(berg1-berg2)}</td>
+                <td class="ea-num">${absDiff(berg1,berg2)}</td>
               </tr>
               <tr>
                 <td>Mätsch (Anz.)</td>
                 <td class="ea-num" style="${matsch1>matsch2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1)}</td>
                 <td class="ea-num" style="${matsch2>matsch1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2)}</td>
-                <td class="ea-num">${diff(matsch1-matsch2)}</td>
+                <td class="ea-num">${absDiff(matsch1,matsch2)}</td>
               </tr>
               <tr>
                 <td>Mätsch (Pkt.)</td>
                 <td class="ea-num" style="${matsch1p>matsch2p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1p)}</td>
                 <td class="ea-num" style="${matsch2p>matsch1p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2p)}</td>
-                <td class="ea-num">${diff(matsch1p-matsch2p)}</td>
+                <td class="ea-num">${absDiff(matsch1p,matsch2p)}</td>
               </tr>
               <tr>
                 <td>Pünkt Total</td>
                 <td class="ea-num" style="${punkte1>punkte2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte1)}</td>
                 <td class="ea-num" style="${punkte2>punkte1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte2)}</td>
-                <td class="ea-num">${diff(punkte1-punkte2)}</td>
+                <td class="ea-num">${absDiff(punkte1,punkte2)}</td>
               </tr>
               <tr>
                 <td>Spenden</td>
                 <td class="ea-num">${n(spenden1)}</td>
                 <td class="ea-num">${n(spenden2)}</td>
-                <td class="ea-num">${diff(spenden1-spenden2)}</td>
+                <td class="ea-num">${absDiff(spenden1,spenden2)}</td>
               </tr>
             </tbody>
           </table>
@@ -1956,9 +1961,9 @@ async function loadEinzelabend(filename, label, btn) {
           </div>
         </div>
 
-        <!-- Anzahl Weis nach Farben -->
+        <!-- Anzahl Wiis nach Farben -->
         <div class="ea-block">
-          <div class="ea-block-title">Anzahl Weis nach Farben</div>
+          <div class="ea-block-title">Anzahl Wiis nach Farben</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px 2px;font-size:10px;color:rgba(247,242,232,0.5);">
             <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#4a7c3f;"></span>Eichlen</span>
             <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#8B5E3C;"></span>Schelle</span>
@@ -1968,7 +1973,7 @@ async function loadEinzelabend(filename, label, btn) {
             <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#1A3A6B;"></span>Obe</span>
           </div>
           <div style="position:relative;height:180px;padding:4px 10px 10px;">
-            <canvas id="${chartId}_weis" role="img" aria-label="Anzahl Weis nach Farben pro Spieler">Anzahl Weis nach Farben pro Spieler.</canvas>
+            <canvas id="${chartId}_weis" role="img" aria-label="Anzahl Wiis nach Farben pro Spieler">Anzahl Wiis nach Farben pro Spieler.</canvas>
           </div>
         </div>
 
@@ -2062,14 +2067,14 @@ async function loadEinzelabend(filename, label, btn) {
           layout: { padding: { right: 10 } },
           plugins: { legend: { display: false } },
           scales: {
-            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} }, grid:{color:'rgba(255,255,255,0.05)'} },
+            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10}, stepSize:1 }, grid:{color:'rgba(255,255,255,0.05)'} },
             y: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} }
           }
         }
       });
     });
 
-    // Anzahl Weis nach Farben chart
+    // Anzahl Wiis nach Farben chart
     requestAnimationFrame(() => {
       const canvasWeis = document.getElementById(chartId + '_weis');
       if (!canvasWeis) return;
@@ -2092,7 +2097,7 @@ async function loadEinzelabend(filename, label, btn) {
           layout: { padding: { right: 10 } },
           plugins: { legend: { display: false } },
           scales: {
-            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} }, grid:{color:'rgba(255,255,255,0.05)'} },
+            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10}, stepSize:1 }, grid:{color:'rgba(255,255,255,0.05)'} },
             y: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} }
           }
         }
