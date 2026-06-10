@@ -1825,13 +1825,13 @@ async function loadEinzelabend(filename, label, btn) {
         <!-- Spieler Übersicht + Chefschwätzer nebeneinander -->
         <div class="ea-block">
           <div class="ea-block-title">Spieler Übersicht</div>
-          <table>
-            <thead><tr><th>Spieler</th><th class="ea-num">Vorhand %</th><th class="ea-num">Weis p.P.</th></tr></thead>
+          <table style="text-align:center;">
+            <thead><tr><th style="text-align:center;">Spieler</th><th style="text-align:center;">Vorhand %</th><th style="text-align:center;">Weis p.P.</th></tr></thead>
             <tbody>
               ${players.map(p => `<tr>
-                <td class="ea-name" style="${teamBg(p.name)}">${p.name}${teamBadge(p.name)}</td>
-                <td class="ea-num" style="${teamBg(p.name)}">${pct(p.vorhand)}</td>
-                <td class="ea-num" style="${teamBg(p.name)}">${n(p.wiis)}</td>
+                <td class="ea-name" style="text-align:center; ${teamBg(p.name)}">${p.name}${teamBadge(p.name)}</td>
+                <td style="text-align:center; ${teamBg(p.name)}">${pct(p.vorhand)}</td>
+                <td style="text-align:center; ${teamBg(p.name)}">${n(p.wiis)}</td>
               </tr>`).join('')}
             </tbody>
           </table>
@@ -1936,11 +1936,19 @@ async function loadEinzelabend(filename, label, btn) {
               if (val > 60) ctx.fillText(val.toLocaleString('de-CH'), bar.x, bar.y + bar.height/2 + 4);
             });
           });
-          // Total values
+          // Total values + crown for winner
+          const maxTotal = Math.max(...totalsArr);
           ctx.font = 'bold 11px sans-serif';
           ctx.fillStyle = '#ffffff';
           totalsArr.forEach((total, i) => {
-            ctx.fillText(total.toLocaleString('de-CH'), x.getPixelForValue(i), y.getPixelForValue(total) - 6);
+            const xPos = x.getPixelForValue(i);
+            const yPos = y.getPixelForValue(total);
+            ctx.fillText(total.toLocaleString('de-CH'), xPos, yPos - 6);
+            if (total === maxTotal) {
+              ctx.font = '16px sans-serif';
+              ctx.fillText('👑', xPos, yPos - 22);
+              ctx.font = 'bold 11px sans-serif';
+            }
           });
           ctx.restore();
         }
