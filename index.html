@@ -1914,8 +1914,8 @@ async function loadEinzelabend(filename, label, btn) {
               </tr>
               <tr>
                 <td>Anteil Wiise</td>
-                <td class="ea-num">${punkte1>0 ? Math.round(weisenRows[0].pts1/punkte1*100)+'%' : '—'}</td>
-                <td class="ea-num">${punkte2>0 ? Math.round(weisenRows[0].pts2/punkte2*100)+'%' : '—'}</td>
+                <td class="ea-num">${punkte1>0 ? (weisenRows[0].pts1/punkte1*100).toFixed(1)+'%' : '—'}</td>
+                <td class="ea-num">${punkte2>0 ? (weisenRows[0].pts2/punkte2*100).toFixed(1)+'%' : '—'}</td>
                 <td class="ea-num">—</td>
               </tr>
             </tbody>
