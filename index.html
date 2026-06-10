@@ -1726,7 +1726,7 @@ function renderEinzelabendButtons(list, container) {
   });
   sorted.forEach(item => {
     const btn = document.createElement('button');
-    btn.className = 'tab-btn';
+    btn.className = 'sub-btn';
     btn.textContent = item.label;
     btn.dataset.file = item.file;
     btn.dataset.label = item.label;
@@ -1738,7 +1738,7 @@ function renderEinzelabendButtons(list, container) {
 async function loadEinzelabend(filename, label, btn) {
   // Switch to Einzelabend tab
   switchMain('einzelabend');
-  document.querySelectorAll('#einzelabend-buttons .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#einzelabend-buttons .sub-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-einzelabend').classList.add('active');
 
