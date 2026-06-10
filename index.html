@@ -296,8 +296,18 @@
     gap: 1.5rem;
     padding: 1.5rem 1rem 0;
     align-items: flex-start;
+    max-width: 900px;
+    margin: 0 auto;
   }
-  .tab-nav-spacer { width: 160px; flex-shrink: 0; }
+  .tab-nav-einzelabende {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border-right: 1px solid rgba(201,168,76,0.2);
+    padding-right: 1.5rem;
+    width: 160px;
+    flex-shrink: 0;
+  }
   .tab-nav-current { flex: 1; display: flex; flex-direction: column; align-items: center; }
   .tab-nav-history {
     display: flex;
@@ -345,6 +355,51 @@
     .tab-nav { flex-direction: column; align-items: center; gap: 0.75rem; }
     .tab-nav-history { border-left: none; border-top: 1px solid rgba(201,168,76,0.2); padding-left: 0; padding-top: 0.75rem; flex-direction: row; flex-wrap: wrap; justify-content: center; }
   }
+
+  /* EINZELABEND */
+  .ea-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .ea-datum {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .ea-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 700px) { .ea-grid { grid-template-columns: 1fr; } }
+  .ea-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .ea-block-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.75);
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(201,168,76,0.07);
+  }
+  .ea-block table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .ea-block th { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,242,232,0.35); padding: 0.45rem 0.9rem; text-align: left; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  .ea-block td { padding: 0.5rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .ea-block tr:last-child td { border-bottom: none; }
+  .ea-name { font-family: 'Fraunces', serif; font-weight: 700; }
+  .ea-num { text-align: right; }
+  .ea-pos { color: #4caf7d; }
+  .ea-neg { color: #e07070; }
+  .ea-full { grid-column: 1 / -1; }
 </style>
 </head>
 <body>
@@ -356,7 +411,10 @@
 
 
 <div class="tab-nav">
-  <div class="tab-nav-spacer"></div>
+  <div class="tab-nav-einzelabende">
+    <div class="tab-nav-label">Einzelabende</div>
+    <div id="einzelabend-buttons"><!-- filled by JS --></div>
+  </div>
   <div class="tab-nav-current">
     <div class="tab-nav-label">Aktuelle Saison</div>
     <button class="tab-btn tab-btn-current active" onclick="switchTab('2627')">2026 / 27</button>
@@ -517,6 +575,12 @@
     </main>
   </div>
 </div><!-- end tab-2122 -->
+
+<div class="tab-panel" id="tab-einzelabend">
+  <div id="einzelabend-content" style="max-width:1000px; margin:3rem auto; padding:0 1.5rem 4rem;">
+    <div style="text-align:center; color:rgba(247,242,232,0.4); padding:4rem; font-size:0.85rem;">Wähle einen Abend aus</div>
+  </div>
+</div><!-- end tab-einzelabend -->
 
 <footer>Jassstatistik Wädi 2026/2027 — automatisch aus Excel generiert</footer>
 
@@ -1617,6 +1681,222 @@ async function loadSeason2122() {
   document.getElementById('loading-2122').style.display = 'none';
   document.getElementById('app-2122').style.display = 'block';
 }
+
+// ── Einzelabende ─────────────────────────────────────────────────────────────
+async function loadEinzelabendList() {
+  try {
+    const resp = await fetch('abende.json');
+    if (!resp.ok) return;
+    const list = await resp.json();
+    const container = document.getElementById('einzelabend-buttons');
+    container.innerHTML = list.map(item =>
+      `<button class="tab-btn" onclick="loadEinzelabend('${item.file}', '${item.label}', this)">${item.label}</button>`
+    ).join('');
+  } catch(e) { console.log('abende.json not found:', e); }
+}
+
+async function loadEinzelabend(filename, label, btn) {
+  // Switch to Einzelabend tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-einzelabend').classList.add('active');
+
+  const content = document.getElementById('einzelabend-content');
+  content.innerHTML = '<div style="text-align:center; color:rgba(247,242,232,0.4); padding:4rem;">Wird geladen…</div>';
+
+  try {
+    const resp = await fetch(filename);
+    const buf = await resp.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array', cellDates: true });
+    const ws = wb.Sheets['Einzelabend'];
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+    // Format dates
+    const fmtD = v => {
+      if (v instanceof Date) {
+        return String(v.getDate()).padStart(2,'0') + '.' + String(v.getMonth()+1).padStart(2,'0') + '.' + v.getFullYear();
+      }
+      return v;
+    };
+    rows.forEach((row, ri) => rows[ri] = row.map(fmtD));
+
+    // Parse data
+    const datum = rows[2][2] || label;
+
+    // Players: rows 5-8, cols: 0=team, 2=name, 3=vorhand%, 4=wiis
+    const players = [5,6,7,8].map(i => ({
+      team: String(rows[i][0]).replace('Team ','').replace('.1','b'),
+      name: rows[i][2],
+      vorhand: rows[i][3],
+      wiis: rows[i][4],
+      // Vorhand/Rückhand: cols 5-10
+      vh: [rows[i][5], rows[i][6], rows[i][7], rows[i][8], rows[i][9], rows[i][10]],
+      // Weisen: cols 12-17
+      weisen: [rows[i][12], rows[i][13], rows[i][14], rows[i][15], rows[i][16], rows[i][17]],
+    }));
+
+    // Teams
+    const team1name = 'Team 1';
+    const team2name = 'Team 2';
+    const striche1 = rows[16][2], striche2 = rows[16][4];
+    const matsch1 = rows[19][2], matsch1p = rows[19][3], matsch2 = rows[19][4], matsch2p = rows[19][5];
+    const berg1 = rows[20][2], berg2 = rows[20][4];
+    const punkte1 = rows[22][2], punkte2 = rows[22][4];
+    const spenden1 = rows[39][2], spenden2 = rows[39][4];
+
+    // Runden
+    const runden = [23,24,25,26,27,28].map(i => ({
+      name: rows[i][0],
+      t1: rows[i][2],
+      t2: rows[i][4],
+      diff: rows[i][7]
+    })).filter(r => r.name);
+
+    // Wiisen team
+    const weisenRows = [
+      { label: 'Total', anz1: rows[31][2], pts1: rows[31][3], anz2: rows[31][4], pts2: rows[31][5] },
+      { label: '20er',  anz1: rows[32][2], pts1: rows[32][3], anz2: rows[32][4], pts2: rows[32][5] },
+      { label: '50er',  anz1: rows[33][2], pts1: rows[33][3], anz2: rows[33][4], pts2: rows[33][5] },
+      { label: '100er', anz1: rows[34][2], pts1: rows[34][3], anz2: rows[34][4], pts2: rows[34][5] },
+      { label: '150er', anz1: rows[35][2], pts1: rows[35][3], anz2: rows[35][4], pts2: rows[35][5] },
+      { label: '200er', anz1: rows[36][2], pts1: rows[36][3], anz2: rows[36][4], pts2: rows[36][5] },
+    ];
+
+    // Schneider rows 30-33 col 10-11
+    const schneider = [30,31,32,33].map(i => ({
+      name: rows[i][10],
+      anz: rows[i][11]
+    })).filter(r => r.name);
+
+    // Weis p.P. rows 14-17 with summe col 18
+    const weisDetail = [14,15,16,17].map(i => ({
+      name: rows[i][11],
+      eichlen: rows[i][12], schelle: rows[i][13], schilten: rows[i][14],
+      rose: rows[i][15], une: rows[i][16], obe: rows[i][17],
+      summe: rows[i][18]
+    })).filter(r => r.name);
+
+    const n = v => (v === '' || v === null || v === undefined) ? '—' : Math.round(Number(v)).toLocaleString('de-CH');
+    const pct = v => (v === '' || v === null) ? '—' : Math.round(Number(v)*100) + '%';
+    const diff = v => {
+      const num = Number(v);
+      if (isNaN(num) || num === 0) return '<span>0</span>';
+      return num > 0 ? `<span class="ea-pos">+${Math.round(num).toLocaleString('de-CH')}</span>` : `<span class="ea-neg">${Math.round(num).toLocaleString('de-CH')}</span>`;
+    };
+
+    // Determine winner
+    const winner = striche1 > striche2 ? team1name : striche2 > striche1 ? team2name : 'Unentschieden';
+
+    content.innerHTML = `
+      <div class="ea-header">
+        <div class="ea-datum">${datum}</div>
+        <div style="color:rgba(247,242,232,0.4); font-size:0.8rem;">Jassabend Wädi</div>
+      </div>
+
+      <div class="ea-grid">
+
+        <!-- Spieler Übersicht -->
+        <div class="ea-block ea-full">
+          <div class="ea-block-title">Spieler Übersicht</div>
+          <table>
+            <thead><tr>
+              <th>Spieler</th><th>Vorhand %</th><th>Weis p.P.</th>
+              <th class="ea-num">Eichle</th><th class="ea-num">Schelle</th><th class="ea-num">Schilte</th><th class="ea-num">Rose</th><th class="ea-num">Une</th><th class="ea-num">Obe</th>
+            </tr></thead>
+            <tbody>
+              ${players.map(p => `<tr>
+                <td class="ea-name" style="color:${PLAYER_COLORS[p.name] || 'var(--cream)'};">${p.name}</td>
+                <td>${pct(p.vorhand)}</td>
+                <td class="ea-num">${n(p.wiis)}</td>
+                ${p.vh.map(v => `<td class="ea-num">${n(v)}</td>`).join('')}
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Team Vergleich -->
+        <div class="ea-block">
+          <div class="ea-block-title">Team Vergleich</div>
+          <table>
+            <thead><tr><th></th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Differenz</th></tr></thead>
+            <tbody>
+              <tr><td>Striche</td><td class="ea-num">${n(striche1)}</td><td class="ea-num">${n(striche2)}</td><td class="ea-num">${diff(striche1-striche2)}</td></tr>
+              <tr><td>Berg</td><td class="ea-num">${n(berg1)}</td><td class="ea-num">${n(berg2)}</td><td class="ea-num">${diff(berg1-berg2)}</td></tr>
+              <tr><td>Mätsch (Anz.)</td><td class="ea-num">${n(matsch1)}</td><td class="ea-num">${n(matsch2)}</td><td class="ea-num">${diff(matsch1-matsch2)}</td></tr>
+              <tr><td>Mätsch (Pkt.)</td><td class="ea-num">${n(matsch1p)}</td><td class="ea-num">${n(matsch2p)}</td><td class="ea-num">${diff(matsch1p-matsch2p)}</td></tr>
+              <tr><td>Pünkt Total</td><td class="ea-num">${n(punkte1)}</td><td class="ea-num">${n(punkte2)}</td><td class="ea-num">${diff(punkte1-punkte2)}</td></tr>
+              <tr><td>Spenden</td><td class="ea-num">${n(spenden1)}</td><td class="ea-num">${n(spenden2)}</td><td class="ea-num">${diff(spenden1-spenden2)}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pünkt pro Runde -->
+        <div class="ea-block">
+          <div class="ea-block-title">Pünkt pro Runde</div>
+          <table>
+            <thead><tr><th>Runde</th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Differenz</th></tr></thead>
+            <tbody>
+              ${runden.map(r => `<tr>
+                <td>${r.name}</td>
+                <td class="ea-num">${n(r.t1)}</td>
+                <td class="ea-num">${n(r.t2)}</td>
+                <td class="ea-num">${diff(r.diff)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Wiisen Team -->
+        <div class="ea-block">
+          <div class="ea-block-title">Wiisen — Team Vergleich</div>
+          <table>
+            <thead><tr><th></th><th class="ea-num">T1 Anz.</th><th class="ea-num">T1 Pkt.</th><th class="ea-num">T2 Anz.</th><th class="ea-num">T2 Pkt.</th><th class="ea-num">Diff Pkt.</th></tr></thead>
+            <tbody>
+              ${weisenRows.map(r => `<tr>
+                <td>${r.label}</td>
+                <td class="ea-num">${n(r.anz1)}</td><td class="ea-num">${n(r.pts1)}</td>
+                <td class="ea-num">${n(r.anz2)}</td><td class="ea-num">${n(r.pts2)}</td>
+                <td class="ea-num">${diff(r.pts1 - r.pts2)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Wiisen pro Spieler -->
+        <div class="ea-block ea-full">
+          <div class="ea-block-title">Wiisen — pro Spieler (Punkte)</div>
+          <table>
+            <thead><tr><th>Spieler</th><th class="ea-num">Eichlen</th><th class="ea-num">Schelle</th><th class="ea-num">Schilten</th><th class="ea-num">Rose</th><th class="ea-num">Une</th><th class="ea-num">Obe</th><th class="ea-num">Total</th></tr></thead>
+            <tbody>
+              ${weisDetail.map(p => `<tr>
+                <td class="ea-name" style="color:${PLAYER_COLORS[p.name] || 'var(--cream)'};">${p.name}</td>
+                <td class="ea-num">${n(p.eichlen)}</td><td class="ea-num">${n(p.schelle)}</td><td class="ea-num">${n(p.schilten)}</td>
+                <td class="ea-num">${n(p.rose)}</td><td class="ea-num">${n(p.une)}</td><td class="ea-num">${n(p.obe)}</td>
+                <td class="ea-num" style="color:var(--gold); font-weight:bold;">${n(p.summe)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Schneider -->
+        ${schneider.length ? `<div class="ea-block">
+          <div class="ea-block-title">Schneider</div>
+          <table>
+            <thead><tr><th>Spieler</th><th class="ea-num">Anzahl</th></tr></thead>
+            <tbody>${schneider.map(s => `<tr><td class="ea-name" style="color:${PLAYER_COLORS[s.name]||'var(--cream)'};">${s.name}</td><td class="ea-num">${n(s.anz)}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>` : ''}
+
+      </div>`;
+
+  } catch(e) {
+    content.innerHTML = '<div style="text-align:center; color:#e07070; padding:4rem;">Fehler beim Laden: ' + e.message + '</div>';
+  }
+}
+
+// Load list on startup
+loadEinzelabendList();
 </script>
 </body>
 </html>
