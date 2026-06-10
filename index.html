@@ -777,12 +777,14 @@ async function main() {
   const podiumOrder = [sorted[1], sorted[0], sorted[2], sorted[3]];
   const podiumClasses = ['place-2','place-1','place-3','place-4'];
   const photoMap = { 'Küng':'Küng.jpg', 'Chäli':'Chäli.jpg', 'Goonse':'Goonse.jpg', 'Fuchs':'Fuchs.jpg' };
+  const maxPokale = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barHeight = (val) => Math.round(40 + (Number(val) / maxPokale) * 100);
   document.getElementById('podium').innerHTML = podiumOrder.map((p,i) => `
     <div class="podium-place ${podiumClasses[i]}">
       <img src="${photoMap[p.name] || ''}" class="podium-photo" onerror="this.style.display='none'" alt="${p.name}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barHeight(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
@@ -931,13 +933,15 @@ async function loadSeason2526() {
     if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
   }
   const sorted2 = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const maxPok2526 = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barH2526 = (val) => Math.round(40 + (Number(val) / maxPok2526) * 100);
   const po = [sorted2[1], sorted2[0], sorted2[2], sorted2[3]];
   const pc = ['place-2','place-1','place-3','place-4'];
   document.getElementById('podium-2526').innerHTML = po.map((p,i) => `
     <div class="podium-place ${pc[i]}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barH2526(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
@@ -1100,13 +1104,15 @@ async function loadSeason2425() {
     if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
   }
   const sorted3 = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const maxPok2425 = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barH2425 = (val) => Math.round(40 + (Number(val) / maxPok2425) * 100);
   const po = [sorted3[1], sorted3[0], sorted3[2], sorted3[3]];
   const pc = ['place-2','place-1','place-3','place-4'];
   document.getElementById('podium-2425').innerHTML = po.map((p,i) => `
     <div class="podium-place ${pc[i]}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barH2425(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
@@ -1265,13 +1271,15 @@ async function loadSeason2324() {
     if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
   }
   const sorted = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const maxPokale2324 = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barHeight2324 = (val) => Math.round(40 + (Number(val) / maxPokale2324) * 100);
   const po = [sorted[1], sorted[0], sorted[2], sorted[3]];
   const pc = ['place-2','place-1','place-3','place-4'];
   document.getElementById('podium-2324').innerHTML = po.map((p,i) => `
     <div class="podium-place ${pc[i]}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barHeight2324(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
@@ -1439,13 +1447,15 @@ async function loadSeason2223() {
     if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
   }
   const sorted = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const maxPokale2223 = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barHeight2223 = (val) => Math.round(40 + (Number(val) / maxPokale2223) * 100);
   const po = [sorted[1], sorted[0], sorted[2], sorted[3]];
   const pc = ['place-2','place-1','place-3','place-4'];
   document.getElementById('podium-2223').innerHTML = po.map((p,i) => `
     <div class="podium-place ${pc[i]}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barHeight2223(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
@@ -1613,13 +1623,15 @@ async function loadSeason2122() {
     if (r[6]) gesamtData.push({ rank: Number(r[5]), name: String(r[6]), value: r[7] });
   }
   const sorted = [...gesamtData].sort((a,b) => a.rank - b.rank);
+  const maxPokale2122 = Math.max(...gesamtData.map(p => Number(p.value)));
+  const barHeight2122 = (val) => Math.round(40 + (Number(val) / maxPokale2122) * 100);
   const po = [sorted[1], sorted[0], sorted[2], sorted[3]];
   const pc = ['place-2','place-1','place-3','place-4'];
   document.getElementById('podium-2122').innerHTML = po.map((p,i) => `
     <div class="podium-place ${pc[i]}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
-      <div class="podium-bar">${p.rank}.</div>
+      <div class="podium-bar" style="height:${barHeight2122(p.value)}px;">${p.rank}.</div>
       <div class="podium-base"></div>
     </div>`).join('');
 
