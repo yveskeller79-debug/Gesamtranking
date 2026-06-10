@@ -1857,14 +1857,49 @@ async function loadEinzelabend(filename, label, btn) {
         <div class="ea-block">
           <div class="ea-block-title">Team Vergleich</div>
           <table>
-            <thead><tr><th></th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Diff</th></tr></thead>
+            <thead><tr>
+              <th></th>
+              <th class="ea-num" style="${striche1>striche2?'color:#4caf7d;font-weight:bold;':''}">Team 1 ${striche1>striche2?'👑':''}</th>
+              <th class="ea-num" style="${striche2>striche1?'color:#4caf7d;font-weight:bold;':''}">Team 2 ${striche2>striche1?'👑':''}</th>
+              <th class="ea-num">Diff</th>
+            </tr></thead>
             <tbody>
-              <tr><td>Striche</td><td class="ea-num">${n(striche1)}</td><td class="ea-num">${n(striche2)}</td><td class="ea-num">${diff(striche1-striche2)}</td></tr>
-              <tr><td>Berg</td><td class="ea-num">${n(berg1)}</td><td class="ea-num">${n(berg2)}</td><td class="ea-num">${diff(berg1-berg2)}</td></tr>
-              <tr><td>Mätsch (Anz.)</td><td class="ea-num">${n(matsch1)}</td><td class="ea-num">${n(matsch2)}</td><td class="ea-num">${diff(matsch1-matsch2)}</td></tr>
-              <tr><td>Mätsch (Pkt.)</td><td class="ea-num">${n(matsch1p)}</td><td class="ea-num">${n(matsch2p)}</td><td class="ea-num">${diff(matsch1p-matsch2p)}</td></tr>
-              <tr><td>Pünkt Total</td><td class="ea-num">${n(punkte1)}</td><td class="ea-num">${n(punkte2)}</td><td class="ea-num">${diff(punkte1-punkte2)}</td></tr>
-              <tr><td>Spenden</td><td class="ea-num">${n(spenden1)}</td><td class="ea-num">${n(spenden2)}</td><td class="ea-num">${diff(spenden1-spenden2)}</td></tr>
+              <tr>
+                <td>Striche</td>
+                <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(striche1)}</td>
+                <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(striche2)}</td>
+                <td class="ea-num">${diff(striche1-striche2)}</td>
+              </tr>
+              <tr>
+                <td>Berg</td>
+                <td class="ea-num" style="${berg1>berg2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg1)}</td>
+                <td class="ea-num" style="${berg2>berg1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg2)}</td>
+                <td class="ea-num">${diff(berg1-berg2)}</td>
+              </tr>
+              <tr>
+                <td>Mätsch (Anz.)</td>
+                <td class="ea-num" style="${matsch1>matsch2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1)}</td>
+                <td class="ea-num" style="${matsch2>matsch1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2)}</td>
+                <td class="ea-num">${diff(matsch1-matsch2)}</td>
+              </tr>
+              <tr>
+                <td>Mätsch (Pkt.)</td>
+                <td class="ea-num" style="${matsch1p>matsch2p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1p)}</td>
+                <td class="ea-num" style="${matsch2p>matsch1p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2p)}</td>
+                <td class="ea-num">${diff(matsch1p-matsch2p)}</td>
+              </tr>
+              <tr>
+                <td>Pünkt Total</td>
+                <td class="ea-num" style="${punkte1>punkte2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte1)}</td>
+                <td class="ea-num" style="${punkte2>punkte1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte2)}</td>
+                <td class="ea-num">${diff(punkte1-punkte2)}</td>
+              </tr>
+              <tr>
+                <td>Spenden</td>
+                <td class="ea-num">${n(spenden1)}</td>
+                <td class="ea-num">${n(spenden2)}</td>
+                <td class="ea-num">${diff(spenden1-spenden2)}</td>
+              </tr>
             </tbody>
           </table>
         </div>
