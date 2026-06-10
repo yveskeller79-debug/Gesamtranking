@@ -203,9 +203,10 @@
     overflow: hidden;
   }
   .stat-card-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    font-weight: 500;
     padding: 0.6rem 0.9rem;
     border-bottom-width: 1px;
     border-bottom-style: solid;
@@ -231,11 +232,12 @@
   }
   tr:last-child td { border-bottom: none; }
   .rank-cell { color: rgba(247,242,232,0.4); width: 24px; }
-  .name-cell { font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.9rem; }
+  .name-cell { font-family: 'Fraunces', serif; font-weight: 400; font-size: 0.9rem; }
   .val-cell { text-align: right; color: var(--cream); }
   .trophy-cell { text-align: center; font-size: 0.9rem; width: 30px; }
 
   /* Row highlighting handled per-category above */
+  tr.rank-1 .name-cell { font-weight: 700; }
 
   /* CHART SECTION */
   .chart-section {
