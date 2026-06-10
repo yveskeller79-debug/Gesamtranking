@@ -1720,12 +1720,16 @@ async function loadEinzelabendList() {
 
 function renderEinzelabendButtons(list, container) {
   container.innerHTML = '';
+  // Sort descending: parse DD.MM.YYYY -> comparable number YYYYMMDD
   const sorted = [...list].sort((a, b) => {
-    const pd = s => {
+    const toNum = s => {
       const p = s.split('.');
-      return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]));
+      const d = p[0].padStart(2,'0');
+      const m = p[1].padStart(2,'0');
+      const y = p.length >= 3 ? p[2] : '2026';
+      return parseInt(y + m + d);
     };
-    return pd(b.label) - pd(a.label);
+    return toNum(b.label) - toNum(a.label);
   });
   sorted.forEach(item => {
     const btn = document.createElement('button');
@@ -1733,7 +1737,11 @@ function renderEinzelabendButtons(list, container) {
     btn.textContent = item.label;
     btn.dataset.file = item.file;
     btn.dataset.label = item.label;
-    btn.addEventListener('click', function() { loadEinzelabend(this.dataset.file, this.dataset.label, this); });
+    btn.addEventListener('click', function() {
+      // Fix 2: clear ALL sub-btn active states before setting new one
+      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      loadEinzelabend(this.dataset.file, this.dataset.label, this);
+    });
     container.appendChild(btn);
   });
 }
@@ -1741,7 +1749,7 @@ function renderEinzelabendButtons(list, container) {
 async function loadEinzelabend(filename, label, btn) {
   // Switch to Einzelabend tab
   switchMain('einzelabend');
-  document.querySelectorAll('#einzelabend-buttons .sub-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-einzelabend').classList.add('active');
 
