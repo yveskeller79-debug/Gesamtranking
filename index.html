@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- v2.1 -->
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -828,8 +828,9 @@ function switchMain(section) {
   // Update main buttons
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('main-btn-' + section).classList.add('active');
-  // Close all sub-navs
+  // Close all sub-navs and clear sub-btn active states
   document.querySelectorAll('.sub-nav').forEach(s => s.classList.remove('open'));
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
   // Hide all panels
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 
@@ -1707,7 +1708,7 @@ async function loadSeason2122() {
 async function loadEinzelabendList() {
   const container = document.getElementById('einzelabend-buttons');
   try {
-    const resp = await fetch('abende.json');
+    const resp = await fetch('abende.json?v=' + Date.now());
     if (!resp.ok) throw new Error('not ok');
     const list = await resp.json();
     container.innerHTML = list.map(item =>
