@@ -1925,7 +1925,8 @@ async function loadEinzelabend(filename, label, btn) {
         <!-- Wiisen Team -->
         <div class="ea-block">
           <div class="ea-block-title">Wiisen — Team Vergleich</div>
-          <table>
+          <div style="overflow-x:auto;">
+          <table style="min-width:340px;">
             <thead><tr><th></th><th class="ea-num">T1 Anz.</th><th class="ea-num">T1 Pkt.</th><th class="ea-num">T2 Anz.</th><th class="ea-num">T2 Pkt.</th><th class="ea-num">Diff</th></tr></thead>
             <tbody>
               ${weisenRows.map(r => `<tr>
@@ -1936,6 +1937,7 @@ async function loadEinzelabend(filename, label, btn) {
               </tr>`).join('')}
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- Gespielte Farben -->
