@@ -1762,13 +1762,13 @@ async function loadEinzelabend(filename, label, btn) {
     const punkte1 = rows[22][2], punkte2 = rows[22][4];
     const spenden1 = rows[39][2], spenden2 = rows[39][4];
 
-    // Runden
+    // Runden - only include rows where both teams have data
     const runden = [23,24,25,26,27,28].map(i => ({
       name: rows[i][0],
       t1: rows[i][2],
       t2: rows[i][4],
       diff: rows[i][7]
-    })).filter(r => r.name);
+    })).filter(r => r.name && (Number(r.t1) !== 0 || Number(r.t2) !== 0));
 
     // Wiisen team
     const weisenRows = [
