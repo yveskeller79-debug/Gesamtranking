@@ -356,6 +356,27 @@
   .sub-btn:hover { border-color: var(--gold); color: var(--gold); }
   .sub-btn.active { background: rgba(201,168,76,0.15); color: var(--gold); border-color: var(--gold); }
 
+  /* PLAYER PHOTOS */
+  .player-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(201,168,76,0.4);
+    display: block;
+    margin: 0 auto 0.3rem;
+  }
+  .podium-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(201,168,76,0.5);
+    display: block;
+    margin: 0 auto 0.4rem;
+  }
+  .place-1 .podium-photo { width: 85px; height: 85px; border-color: var(--gold); }
+
   /* EINZELABEND */
   .ea-header {
     display: flex;
@@ -725,8 +746,10 @@ async function main() {
   const sorted = [...gesamtData].sort((a,b) => a.rank - b.rank);
   const podiumOrder = [sorted[1], sorted[0], sorted[2], sorted[3]];
   const podiumClasses = ['place-2','place-1','place-3','place-4'];
+  const photoMap = { 'Küng':'Küng.jpg', 'Chäli':'Chäli.jpg', 'Goonse':'Goonse.jpg', 'Fuchs':'Fuchs.jpg' };
   document.getElementById('podium').innerHTML = podiumOrder.map((p,i) => `
     <div class="podium-place ${podiumClasses[i]}">
+      <img src="${photoMap[p.name] || ''}" class="podium-photo" onerror="this.style.display='none'" alt="${p.name}">
       <div class="podium-name">${p.name}</div>
       <div class="podium-pokale">${p.value} Pokale</div>
       <div class="podium-bar">${p.rank}.</div>
@@ -1739,8 +1762,6 @@ function renderEinzelabendButtons(list, container) {
     btn.dataset.file = item.file;
     btn.dataset.label = item.label;
     btn.addEventListener('click', function() {
-      // Fix 2: clear ALL sub-btn active states before setting new one
-      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
       loadEinzelabend(this.dataset.file, this.dataset.label, this);
     });
     container.appendChild(btn);
@@ -1750,7 +1771,7 @@ function renderEinzelabendButtons(list, container) {
 async function loadEinzelabend(filename, label, btn) {
   // Switch to Einzelabend tab
   switchMain('einzelabend');
-  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#sub-einzelabend .sub-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-einzelabend').classList.add('active');
 
@@ -1850,6 +1871,8 @@ async function loadEinzelabend(filename, label, btn) {
     // Determine winner
     const winner = striche1 > striche2 ? team1name : striche2 > striche1 ? team2name : 'Unentschieden';
 
+    // Player photos
+    const photoMap = { 'Küng':'Küng.jpg', 'Chäli':'Chäli.jpg', 'Goonse':'Goonse.jpg', 'Fuchs':'Fuchs.jpg' };
     // Team colours
     const T1BG = 'background:#1a3a6b22; color:#7eb8e8;';
     const T2BG = 'background:#0f3d2a22; color:#7ee8a8;';
@@ -1876,7 +1899,10 @@ async function loadEinzelabend(filename, label, btn) {
             <thead><tr><th style="text-align:center;">Spieler</th><th style="text-align:center;">Vorhand %</th><th style="text-align:center;">Weis p.P.</th></tr></thead>
             <tbody>
               ${players.map(p => `<tr>
-                <td class="ea-name" style="text-align:center; ${teamBg(p.name)}">${p.name}${teamBadge(p.name)}</td>
+                <td class="ea-name" style="text-align:center; ${teamBg(p.name)}">
+                  <img src="${photoMap[p.name] || ''}" class="player-photo" onerror="this.style.display='none'" alt="${p.name}">
+                  ${p.name}${teamBadge(p.name)}
+                </td>
                 <td style="text-align:center; ${teamBg(p.name)}">${pct(p.vorhand)}</td>
                 <td style="text-align:center; ${teamBg(p.name)}">${n(p.wiis)}</td>
               </tr>`).join('')}
