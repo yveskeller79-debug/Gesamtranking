@@ -432,6 +432,14 @@
 <header>
   <h1>Jassstatistik Wädi</h1>
   <p>Saison 2026 / 2027</p>
+  <div id="header-meta" style="margin-top:0.75rem; display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap;">
+    <span style="font-size:0.7rem; letter-spacing:0.12em; color:rgba(247,242,232,0.4);">
+      <span style="opacity:0.6;">Stand:</span> <span id="meta-datum">—</span>
+    </span>
+    <span style="font-size:0.7rem; letter-spacing:0.12em; color:rgba(247,242,232,0.4);">
+      <span style="opacity:0.6;">Abende:</span> <span id="meta-abende">—</span>
+    </span>
+  </div>
 </header>
 
 
@@ -797,8 +805,30 @@ async function main() {
   document.getElementById('pokalLegend').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin = {
+    id: 'endLabel',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin],
     data: {
       labels: dateLabels,
       datasets: PLAYERS.map((p) => {
@@ -810,6 +840,7 @@ async function main() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
@@ -870,6 +901,11 @@ async function main() {
     }).filter(v => v !== null);
     if (vals.length) buildTsChart(p, dateLabels.slice(0, vals.length), vals);
   });
+
+  // Update header meta
+  const lastDate = dateLabels[dateLabels.length - 1];
+  document.getElementById('meta-datum').textContent = lastDate || '—';
+  document.getElementById('meta-abende').textContent = dateLabels.length;
 
   document.getElementById('loading').style.display = 'none';
   document.getElementById('app').style.display = 'block';
@@ -953,8 +989,30 @@ async function loadSeason2526() {
   document.getElementById('pokalLegend-2526').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin2526 = {
+    id: 'endLabel2526',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart-2526').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin2526],
     data: {
       labels: dLabels,
       datasets: PLAYERS.map((p) => {
@@ -966,6 +1024,7 @@ async function loadSeason2526() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
@@ -1124,8 +1183,30 @@ async function loadSeason2425() {
   document.getElementById('pokalLegend-2425').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin2425 = {
+    id: 'endLabel2425',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart-2425').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin2425],
     data: {
       labels: dLabels,
       datasets: PLAYERS.map((p) => {
@@ -1137,6 +1218,7 @@ async function loadSeason2425() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
@@ -1290,8 +1372,30 @@ async function loadSeason2324() {
   document.getElementById('pokalLegend-2324').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin2324 = {
+    id: 'endLabel2324',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart-2324').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin2324],
     data: {
       labels: dLabels,
       datasets: PLAYERS.map((p) => {
@@ -1303,6 +1407,7 @@ async function loadSeason2324() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
@@ -1466,8 +1571,30 @@ async function loadSeason2223() {
   document.getElementById('pokalLegend-2223').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin2223 = {
+    id: 'endLabel2223',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart-2223').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin2223],
     data: {
       labels: dLabels,
       datasets: PLAYERS.map((p) => {
@@ -1479,6 +1606,7 @@ async function loadSeason2223() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
@@ -1642,8 +1770,30 @@ async function loadSeason2122() {
   document.getElementById('pokalLegend-2122').innerHTML = PLAYERS.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${PLAYER_COLORS[p]}"></div>${p}</div>`
   ).join('');
+  const endLabelPlugin2122 = {
+    id: 'endLabel2122',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      chart.data.datasets.forEach((ds) => {
+        const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
+        const lastPoint = meta.data[meta.data.length - 1];
+        if (!lastPoint) return;
+        const val = ds.data[ds.data.length - 1];
+        if (val === null || val === undefined || val === '') return;
+        ctx.font = 'bold 11px monospace';
+        ctx.fillStyle = ds.borderColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ds.label, lastPoint.x + 6, lastPoint.y);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('pokalChart-2122').getContext('2d'), {
     type: 'line',
+    plugins: [endLabelPlugin2122],
     data: {
       labels: dLabels,
       datasets: PLAYERS.map((p) => {
@@ -1655,6 +1805,7 @@ async function loadSeason2122() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 60 } },
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:11}}, grid:{color:'rgba(255,255,255,0.05)'} },
