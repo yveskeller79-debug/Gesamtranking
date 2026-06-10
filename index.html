@@ -2059,8 +2059,30 @@ async function loadEinzelabend(filename, label, btn) {
     requestAnimationFrame(() => {
       const canvasFarben = document.getElementById(chartId + '_farben');
       if (!canvasFarben) return;
+      const hBarLabelPlugin = {
+        id: 'hBarLabel',
+        afterDatasetsDraw(chart) {
+          const { ctx, scales: { x, y } } = chart;
+          ctx.save();
+          ctx.textBaseline = 'middle';
+          ctx.font = '10px sans-serif';
+          ctx.fillStyle = '#ffffff';
+          chart.data.datasets.forEach((ds, di) => {
+            const meta = chart.getDatasetMeta(di);
+            meta.data.forEach((bar, i) => {
+              const val = ds.data[i];
+              if (val > 0) {
+                ctx.textAlign = 'center';
+                ctx.fillText(val, bar.x - bar.width/2, bar.y);
+              }
+            });
+          });
+          ctx.restore();
+        }
+      };
       new Chart(canvasFarben, {
         type: 'bar',
+        plugins: [hBarLabelPlugin],
         data: {
           labels: players.map(p => p.name),
           datasets: [
@@ -2091,6 +2113,7 @@ async function loadEinzelabend(filename, label, btn) {
       if (!canvasWeis) return;
       new Chart(canvasWeis, {
         type: 'bar',
+        plugins: [hBarLabelPlugin],
         data: {
           labels: players.map(p => p.name),
           datasets: [
