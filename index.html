@@ -2055,11 +2055,8 @@ async function loadEinzelabend(filename, label, btn) {
       });
     });
 
-    // Gespielte Farben chart
-    requestAnimationFrame(() => {
-      const canvasFarben = document.getElementById(chartId + '_farben');
-      if (!canvasFarben) return;
-      const hBarLabelPlugin = {
+    // Shared label plugin for horizontal bar charts
+    const hBarLabelPlugin = {
         id: 'hBarLabel',
         afterDatasetsDraw(chart) {
           const { ctx, scales: { x, y } } = chart;
@@ -2079,7 +2076,12 @@ async function loadEinzelabend(filename, label, btn) {
           });
           ctx.restore();
         }
-      };
+    };
+
+    // Gespielte Farben chart
+    requestAnimationFrame(() => {
+      const canvasFarben = document.getElementById(chartId + '_farben');
+      if (!canvasFarben) return;
       new Chart(canvasFarben, {
         type: 'bar',
         plugins: [hBarLabelPlugin],
