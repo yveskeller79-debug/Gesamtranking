@@ -1684,15 +1684,30 @@ async function loadSeason2122() {
 
 // ── Einzelabende ─────────────────────────────────────────────────────────────
 async function loadEinzelabendList() {
+  const container = document.getElementById('einzelabend-buttons');
   try {
     const resp = await fetch('abende.json');
-    if (!resp.ok) return;
+    if (!resp.ok) throw new Error('not ok');
     const list = await resp.json();
-    const container = document.getElementById('einzelabend-buttons');
     container.innerHTML = list.map(item =>
       `<button class="tab-btn" onclick="loadEinzelabend('${item.file}', '${item.label}', this)">${item.label}</button>`
     ).join('');
-  } catch(e) { console.log('abende.json not found:', e); }
+  } catch(e) {
+    renderEinzelabendButtons([{file:'Einzelabend_21.03.2026.xlsx', label:'21.03.2026'}], container);
+  }
+}
+
+function renderEinzelabendButtons(list, container) {
+  container.innerHTML = '';
+  list.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.textContent = item.label;
+    btn.dataset.file = item.file;
+    btn.dataset.label = item.label;
+    btn.addEventListener('click', function() { loadEinzelabend(this.dataset.file, this.dataset.label, this); });
+    container.appendChild(btn);
+  });
 }
 
 async function loadEinzelabend(filename, label, btn) {
@@ -1788,6 +1803,17 @@ async function loadEinzelabend(filename, label, btn) {
     // Determine winner
     const winner = striche1 > striche2 ? team1name : striche2 > striche1 ? team2name : 'Unentschieden';
 
+    // Team colours
+    const T1BG = 'background:#1a3a6b22; color:#7eb8e8;';
+    const T2BG = 'background:#0f3d2a22; color:#7ee8a8;';
+    const teamBg = (name) => (players[0].name===name||players[1].name===name) ? T1BG : T2BG;
+    const teamBadge = (name) => (players[0].name===name||players[1].name===name)
+      ? '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#1a3a6b;color:#7eb8e8;margin-left:6px;">T1</span>'
+      : '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#0a3a1a;color:#7ee8a8;margin-left:6px;">T2</span>';
+
+    const totalsWeisen = weisDetail.map(p => p.summe);
+    const chartId = 'chefschwätzer_' + Date.now();
+
     content.innerHTML = `
       <div class="ea-header">
         <div class="ea-datum">${datum}</div>
@@ -1796,30 +1822,42 @@ async function loadEinzelabend(filename, label, btn) {
 
       <div class="ea-grid">
 
-        <!-- Spieler Übersicht -->
-        <div class="ea-block ea-full">
+        <!-- Spieler Übersicht + Chefschwätzer nebeneinander -->
+        <div class="ea-block">
           <div class="ea-block-title">Spieler Übersicht</div>
           <table>
-            <thead><tr>
-              <th>Spieler</th><th>Vorhand %</th><th>Weis p.P.</th>
-              <th class="ea-num">Eichle</th><th class="ea-num">Schelle</th><th class="ea-num">Schilte</th><th class="ea-num">Rose</th><th class="ea-num">Une</th><th class="ea-num">Obe</th>
-            </tr></thead>
+            <thead><tr><th>Spieler</th><th class="ea-num">Vorhand %</th><th class="ea-num">Weis p.P.</th></tr></thead>
             <tbody>
               ${players.map(p => `<tr>
-                <td class="ea-name" style="color:${PLAYER_COLORS[p.name] || 'var(--cream)'};">${p.name}</td>
-                <td>${pct(p.vorhand)}</td>
-                <td class="ea-num">${n(p.wiis)}</td>
-                ${p.vh.map(v => `<td class="ea-num">${n(v)}</td>`).join('')}
+                <td class="ea-name" style="${teamBg(p.name)}">${p.name}${teamBadge(p.name)}</td>
+                <td class="ea-num" style="${teamBg(p.name)}">${pct(p.vorhand)}</td>
+                <td class="ea-num" style="${teamBg(p.name)}">${n(p.wiis)}</td>
               </tr>`).join('')}
             </tbody>
           </table>
+        </div>
+
+        <!-- Chefschwätzer -->
+        <div class="ea-block">
+          <div class="ea-block-title">Chefschwätzer</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px 2px;font-size:10px;color:rgba(247,242,232,0.5);">
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#4a7c3f;"></span>Eichlen</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#8B5E3C;"></span>Schelle</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#A8A8A8;"></span>Schilten</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#D4B800;"></span>Rose</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#5DADE2;"></span>Une</span>
+            <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#1A3A6B;"></span>Obe</span>
+          </div>
+          <div style="position:relative;height:180px;padding:4px 10px 10px;">
+            <canvas id="${chartId}" role="img" aria-label="Chefschwätzer Weisen-Punkte pro Spieler">Weisen-Punkte pro Spieler.</canvas>
+          </div>
         </div>
 
         <!-- Team Vergleich -->
         <div class="ea-block">
           <div class="ea-block-title">Team Vergleich</div>
           <table>
-            <thead><tr><th></th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Differenz</th></tr></thead>
+            <thead><tr><th></th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Diff</th></tr></thead>
             <tbody>
               <tr><td>Striche</td><td class="ea-num">${n(striche1)}</td><td class="ea-num">${n(striche2)}</td><td class="ea-num">${diff(striche1-striche2)}</td></tr>
               <tr><td>Berg</td><td class="ea-num">${n(berg1)}</td><td class="ea-num">${n(berg2)}</td><td class="ea-num">${diff(berg1-berg2)}</td></tr>
@@ -1835,7 +1873,7 @@ async function loadEinzelabend(filename, label, btn) {
         <div class="ea-block">
           <div class="ea-block-title">Pünkt pro Runde</div>
           <table>
-            <thead><tr><th>Runde</th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Differenz</th></tr></thead>
+            <thead><tr><th>Runde</th><th class="ea-num">Team 1</th><th class="ea-num">Team 2</th><th class="ea-num">Diff</th></tr></thead>
             <tbody>
               ${runden.map(r => `<tr>
                 <td>${r.name}</td>
@@ -1851,29 +1889,13 @@ async function loadEinzelabend(filename, label, btn) {
         <div class="ea-block">
           <div class="ea-block-title">Wiisen — Team Vergleich</div>
           <table>
-            <thead><tr><th></th><th class="ea-num">T1 Anz.</th><th class="ea-num">T1 Pkt.</th><th class="ea-num">T2 Anz.</th><th class="ea-num">T2 Pkt.</th><th class="ea-num">Diff Pkt.</th></tr></thead>
+            <thead><tr><th></th><th class="ea-num">T1 Anz.</th><th class="ea-num">T1 Pkt.</th><th class="ea-num">T2 Anz.</th><th class="ea-num">T2 Pkt.</th><th class="ea-num">Diff</th></tr></thead>
             <tbody>
               ${weisenRows.map(r => `<tr>
                 <td>${r.label}</td>
                 <td class="ea-num">${n(r.anz1)}</td><td class="ea-num">${n(r.pts1)}</td>
                 <td class="ea-num">${n(r.anz2)}</td><td class="ea-num">${n(r.pts2)}</td>
-                <td class="ea-num">${diff(r.pts1 - r.pts2)}</td>
-              </tr>`).join('')}
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Wiisen pro Spieler -->
-        <div class="ea-block ea-full">
-          <div class="ea-block-title">Wiisen — pro Spieler (Punkte)</div>
-          <table>
-            <thead><tr><th>Spieler</th><th class="ea-num">Eichlen</th><th class="ea-num">Schelle</th><th class="ea-num">Schilten</th><th class="ea-num">Rose</th><th class="ea-num">Une</th><th class="ea-num">Obe</th><th class="ea-num">Total</th></tr></thead>
-            <tbody>
-              ${weisDetail.map(p => `<tr>
-                <td class="ea-name" style="color:${PLAYER_COLORS[p.name] || 'var(--cream)'};">${p.name}</td>
-                <td class="ea-num">${n(p.eichlen)}</td><td class="ea-num">${n(p.schelle)}</td><td class="ea-num">${n(p.schilten)}</td>
-                <td class="ea-num">${n(p.rose)}</td><td class="ea-num">${n(p.une)}</td><td class="ea-num">${n(p.obe)}</td>
-                <td class="ea-num" style="color:var(--gold); font-weight:bold;">${n(p.summe)}</td>
+                <td class="ea-num">${diff(r.pts1-r.pts2)}</td>
               </tr>`).join('')}
             </tbody>
           </table>
@@ -1884,11 +1906,71 @@ async function loadEinzelabend(filename, label, btn) {
           <div class="ea-block-title">Schneider</div>
           <table>
             <thead><tr><th>Spieler</th><th class="ea-num">Anzahl</th></tr></thead>
-            <tbody>${schneider.map(s => `<tr><td class="ea-name" style="color:${PLAYER_COLORS[s.name]||'var(--cream)'};">${s.name}</td><td class="ea-num">${n(s.anz)}</td></tr>`).join('')}</tbody>
+            <tbody>${schneider.map(s => `<tr>
+              <td class="ea-name" style="${teamBg(s.name)}">${s.name}</td>
+              <td class="ea-num" style="${teamBg(s.name)}">${n(s.anz)}</td>
+            </tr>`).join('')}</tbody>
           </table>
         </div>` : ''}
 
       </div>`;
+
+    // Draw Chefschwätzer chart after DOM is ready
+    requestAnimationFrame(() => {
+      const canvas = document.getElementById(chartId);
+      if (!canvas) return;
+      const totalsArr = weisDetail.map(p => Number(p.summe));
+      const labelsPlugin = {
+        id: 'labelsPlugin',
+        afterDatasetsDraw(chart) {
+          const { ctx, data, scales: { x, y } } = chart;
+          ctx.save();
+          ctx.textAlign = 'center';
+          // Category values
+          ctx.font = '10px sans-serif';
+          ctx.fillStyle = '#ffffff';
+          chart.data.datasets.forEach((ds, di) => {
+            const meta = chart.getDatasetMeta(di);
+            meta.data.forEach((bar, i) => {
+              const val = ds.data[i];
+              if (val > 60) ctx.fillText(val.toLocaleString('de-CH'), bar.x, bar.y + bar.height/2 + 4);
+            });
+          });
+          // Total values
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillStyle = '#ffffff';
+          totalsArr.forEach((total, i) => {
+            ctx.fillText(total.toLocaleString('de-CH'), x.getPixelForValue(i), y.getPixelForValue(total) - 6);
+          });
+          ctx.restore();
+        }
+      };
+      new Chart(canvas, {
+        type: 'bar',
+        plugins: [labelsPlugin],
+        data: {
+          labels: weisDetail.map(p => p.name),
+          datasets: [
+            { label:'Eichlen',  data: weisDetail.map(p=>Number(p.eichlen)),  backgroundColor:'#4a7c3f' },
+            { label:'Schelle',  data: weisDetail.map(p=>Number(p.schelle)),  backgroundColor:'#8B5E3C' },
+            { label:'Schilten', data: weisDetail.map(p=>Number(p.schilten)), backgroundColor:'#A8A8A8' },
+            { label:'Rose',     data: weisDetail.map(p=>Number(p.rose)),     backgroundColor:'#D4B800' },
+            { label:'Une',      data: weisDetail.map(p=>Number(p.une)),      backgroundColor:'#5DADE2' },
+            { label:'Obe',      data: weisDetail.map(p=>Number(p.obe)),      backgroundColor:'#1A3A6B' },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          layout: { padding: { top: 20 } },
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { stacked: true, ticks: { color:'rgba(247,242,232,0.6)', font:{size:11} }, grid:{display:false} },
+            y: { stacked: true, ticks: { color:'rgba(247,242,232,0.4)', font:{size:10} },
+              max: Math.max(...totalsArr) * 1.2 }
+          }
+        }
+      });
+    });
 
   } catch(e) {
     content.innerHTML = '<div style="text-align:center; color:#e07070; padding:4rem;">Fehler beim Laden: ' + e.message + '</div>';
