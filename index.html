@@ -837,20 +837,32 @@ function buildTsChart(playerName, labels, data) {
 }
 
 function renderTeamKonstellationen(rows) {
-  const tkIdx = rows.findIndex(r => String(r[10]).trim().startsWith('Teamko'));
+  // Search in all columns for the header, not just col 10
+  let tkIdx = -1;
+  let tkCol = 10; // default column
+  for (let i = 0; i < rows.length; i++) {
+    for (let c = 0; c < rows[i].length; c++) {
+      if (String(rows[i][c]).trim().startsWith('Teamko')) {
+        tkIdx = i;
+        tkCol = c;
+        break;
+      }
+    }
+    if (tkIdx !== -1) break;
+  }
   if (tkIdx === -1) return;
   const teams = [];
   let emptyCount = 0;
   for (let i = tkIdx + 1; i < rows.length; i++) {
     const r = rows[i];
-    const p1 = String(r[10] ?? '').trim();
-    const p2 = String(r[11] ?? '').trim();
+    const p1 = String(r[tkCol] ?? '').trim();
+    const p2 = String(r[tkCol+1] ?? '').trim();
     if (p1 === '' && p2 === '') { emptyCount++; if (emptyCount >= 2) break; continue; }
     emptyCount = 0;
     if (p1 === '' || p2 === '') continue;
-    const anzahl = Number(r[13]) || 0;
+    const anzahl = Number(r[tkCol+3]) || 0;
     if (anzahl === 0) continue;
-    const rawWr = r[14];
+    const rawWr = r[tkCol+4];
     const winrate = (rawWr !== '' && rawWr !== null && rawWr !== undefined) ? Number(rawWr) : null;
     teams.push({ p1, p2, anzahl, winrate });
   }
