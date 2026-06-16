@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- v2.2 -- Moderne Datei-Anbindung -->
 <html lang="de">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,312 +16,60 @@
       --green-felt: #3a7d5a;
       --gold: #c9a84c;
       --cream: #f7f2e8;
-      --red-card: #c0392b;
       --text: #1a1a1a;
-      --muted: #6b6b5a;
-      --border: #d4c9a8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Mono', monospace; background: var(--green-dark); color: var(--cream); min-height: 100vh; }
 
-    body {
-      font-family: 'DM Mono', monospace;
-      background: var(--green-dark);
-      color: var(--cream);
-      min-height: 100vh;
-    }
-
-    /* HEADER */
     header {
       background: linear-gradient(160deg, var(--green-mid) 0%, var(--green-dark) 100%);
       border-bottom: 3px solid var(--gold);
       padding: 2.5rem 2rem 2rem;
       text-align: center;
       position: relative;
-      overflow: hidden;
     }
-    header::before {
-      content: '♠ ♥ ♦ ♣';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 12rem;
-      opacity: 0.03;
-      letter-spacing: 3rem;
-      pointer-events: none;
-    }
-    header h1 {
-      font-family: 'Fraunces', serif;
-      font-weight: 700;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      color: var(--gold);
-      letter-spacing: 0.02em;
-      line-height: 1.1;
-    }
-    header p {
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      color: rgba(247,242,232,0.5);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
+    header h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); }
+    header p { margin-top: 0.5rem; font-size: 0.8rem; color: rgba(247,242,232,0.5); letter-spacing: 0.15em; text-transform: uppercase; }
 
-    /* PODIUM */
-    .podium-section {
-      max-width: 700px;
-      margin: 3rem auto 0;
-      padding: 0 1.5rem;
-      text-align: center;
-    }
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-    }
-    .podium {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-    .podium-place {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .podium-name {
-      font-family: 'Fraunces', serif;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-    .podium-pokale {
-      font-size: 0.7rem;
-      color: rgba(247,242,232,0.6);
-      margin-bottom: 0.4rem;
-    }
-    .podium-bar {
-      width: 90px;
-      border-radius: 4px 4px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Fraunces', serif;
-      font-style: italic;
-      font-size: 1.5rem;
-    }
+    .podium-section { max-width: 700px; margin: 3rem auto 0; padding: 0 1.5rem; text-align: center; }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .podium { display: flex; align-items: flex-end; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .podium-place { display: flex; flex-direction: column; align-items: center; }
+    .podium-name { font-family: 'Fraunces', serif; font-weight: 700; margin-bottom: 0.4rem; }
+    .podium-bar { width: 90px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-style: italic; font-size: 1.5rem; }
+    
     .place-1 .podium-bar { height: 120px; background: var(--gold); color: var(--green-dark); }
     .place-2 .podium-bar { height: 85px; background: #a0a0a0; color: var(--green-dark); }
     .place-3 .podium-bar { height: 60px; background: #8b6341; color: var(--cream); }
-    .place-4 .podium-bar { height: 40px; background: var(--green-felt); color: var(--cream); font-size: 1.1rem; }
-    .place-1 .podium-name { font-size: 1.3rem; color: var(--gold); }
-    .place-2 .podium-name { font-size: 1.1rem; color: #c8c8c8; }
-    .place-3 .podium-name { font-size: 1rem; color: #c8945a; }
-    .place-4 .podium-name { font-size: 0.9rem; color: rgba(247,242,232,0.6); }
-    .podium-base {
-      height: 4px;
-      background: var(--gold);
-      opacity: 0.3;
-      margin-top: 0;
-      border-radius: 0 0 2px 2px;
-      width: 100%;
-    }
+    .podium-base { height: 4px; background: var(--gold); opacity: 0.3; width: 100%; }
 
-    /* MAIN */
-    main {
-      max-width: 1000px;
-      margin: 3rem auto;
-      padding: 0 1.5rem 4rem;
-    }
-
-    /* CATEGORY SECTIONS */
-    .cat-section { margin-bottom: 3rem; }
-    .cat-title {
-      font-family: 'Fraunces', serif;
-      font-weight: 700;
-      font-size: 1.4rem;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      border-bottom-width: 1px;
-      border-bottom-style: solid;
-    }
-    .cat-title span { opacity: 0.5; font-size: 1rem; }
-
-    /* Farben pro Kategorie */
-    .cat-strich .cat-title { color: #7eb8e8; border-bottom-color: rgba(126,184,232,0.3); }
-    .cat-puenkt .cat-title { color: #e87e7e; border-bottom-color: rgba(232,126,126,0.3); }
-    .cat-maetsch .cat-title { color: #e8b87e; border-bottom-color: rgba(232,184,126,0.3); }
-    .cat-wiise .cat-title { color: #7ee8a8; border-bottom-color: rgba(126,232,168,0.3); }
-    .cat-uebrig .cat-title { color: var(--gold); border-bottom-color: rgba(201,168,76,0.3); }
-
-    /* TABLE GRID */
-    .table-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .stat-card {
-      background: rgba(255,255,255,0.04);
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .stat-card-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      font-weight: 500;
-      padding: 0.6rem 0.9rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.15);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-    }
-    th {
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(247,242,232,0.35);
-      padding: 0.45rem 0.9rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(201,168,76,0.1);
-    }
-    td {
-      padding: 0.5rem 0.9rem;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    tr:last-child td { border-bottom: none; }
-    .rank-cell { color: rgba(247,242,232,0.4); width: 24px; }
-    .name-cell { font-family: 'Fraunces', serif; font-weight: 400; font-size: 0.9rem; }
-    .val-cell { text-align: right; color: var(--cream); }
-
-    /* CHART SECTION */
+    main { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem 4rem; }
     .chart-section { margin-bottom: 3rem; }
-    .chart-wrap {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 6px;
-      padding: 1.5rem;
-    }
+    .chart-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2); border-radius: 6px; padding: 1.5rem; }
     .chart-canvas-wrap { position: relative; height: 220px; }
 
-    /* LEGEND */
-    .legend {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-      font-size: 0.7rem;
-      color: rgba(247,242,232,0.6);
-    }
+    /* Tabellen */
+    .table-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .stat-card { background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+    .stat-card-title { font-size: 0.85rem; padding: 0.6rem 0.9rem; background: rgba(0,0,0,0.15); color: var(--gold); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th, td { padding: 0.5rem 0.9rem; text-align: left; }
+    th { color: rgba(247,242,232,0.35); font-size: 0.65rem; text-transform: uppercase; border-bottom: 1px solid rgba(201,168,76,0.1); }
+    td { border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .val-cell { text-align: right; }
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.65rem;
-      color: rgba(247,242,232,0.2);
-      letter-spacing: 0.1em;
-      border-top: 1px solid rgba(201,168,76,0.1);
-      margin-top: 2rem;
-    }
-
-    .tagessiege-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      .table-grid { grid-template-columns: 1fr; }
-      .podium-bar { width: 70px; }
-    }
-
-    /* TABS */
-    .tab-nav {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1.5rem 1rem 0;
-      flex-wrap: wrap;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .tab-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.6rem 1.5rem;
-      border-radius: 4px;
-      border: 1px solid rgba(201,168,76,0.3);
-      background: transparent;
-      color: rgba(247,242,232,0.5);
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
-    .tab-btn.active { background: var(--gold); color: var(--green-dark); border-color: var(--gold); font-weight: bold; }
+    /* Navigation */
+    .tab-nav { display: flex; justify-content: center; gap: 0.75rem; padding: 1.5rem 1rem 0; }
+    .tab-btn { font-family: 'DM Mono', monospace; font-size: 0.8rem; padding: 0.6rem 1.5rem; border-radius: 4px; border: 1px solid rgba(201,168,76,0.3); background: transparent; color: rgba(247,242,232,0.5); cursor: pointer; }
+    .tab-btn.active { background: var(--gold); color: var(--green-dark); font-weight: bold; }
+    .sub-nav { display: none; justify-content: center; gap: 0.4rem; padding: 0.75rem 1rem 0; border-top: 1px solid rgba(201,168,76,0.1); margin-top: 0.75rem; }
+    .sub-nav.open { display: flex; }
+    .sub-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; padding: 0.35rem 0.9rem; border-radius: 4px; border: 1px solid rgba(201,168,76,0.2); background: transparent; color: rgba(247,242,232,0.4); cursor: pointer; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-
-    /* Sub-nav */
-    .sub-nav {
-      display: none;
-      justify-content: center;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      padding: 0.75rem 1rem 0;
-      max-width: 900px;
-      margin: 0 auto;
-      border-top: 1px solid rgba(201,168,76,0.1);
-      margin-top: 0.75rem;
-    }
-    .sub-nav.open { display: flex; }
-    .sub-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.9rem;
-      border-radius: 4px;
-      border: 1px solid rgba(201,168,76,0.2);
-      background: transparent;
-      color: rgba(247,242,232,0.4);
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .sub-btn:hover { border-color: var(--gold); color: var(--gold); }
-    .sub-btn.active { background: rgba(201,168,76,0.15); color: var(--gold); border-color: var(--gold); }
-
-    /* TEAMKONSTELLATIONEN */
-    .team-section { margin-bottom: 3rem; }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 0.75rem;
-    }
-    .team-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    
+    footer { text-align: center; padding: 1.5rem; font-size: 0.65rem; color: rgba(247,242,232,0.2); border-top: 1px solid rgba(201,168,76,0.1); }
   </style>
 </head>
 <body>
@@ -328,13 +77,9 @@
 <header>
   <h1>Jassstatistik Wädi</h1>
   <p>Saison 2026 / 2027</p>
-  <div id="header-meta" style="margin-top:0.75rem; display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap;">
-    <span style="font-size:0.7rem; letter-spacing:0.12em; color:rgba(247,242,232,0.4);">
-      <span style="opacity:0.6;">Stand:</span> <span id="meta-datum">16.06.2026</span>
-    </span>
-    <span style="font-size:0.7rem; letter-spacing:0.12em; color:rgba(247,242,232,0.4);">
-      <span style="opacity:0.6;">Abende:</span> <span id="meta-abende">12</span>
-    </span>
+  <div id="header-meta" style="margin-top:0.75rem; display:flex; justify-content:center; gap:1.5rem;">
+    <span style="font-size:0.7rem; color:rgba(247,242,232,0.4);">Stand: <span id="meta-datum">Lade...</span></span>
+    <span style="font-size:0.7rem; color:rgba(247,242,232,0.4);">Abende: <span id="meta-abende">Lade...</span></span>
   </div>
 </header>
 
@@ -344,110 +89,153 @@
   <button class="tab-btn" id="main-btn-historie" onclick="switchMain('historie')">Historie</button>
 </div>
 
+<!-- Dynamische Knöpfe für die Einzelabende aus der JSON -->
 <div class="sub-nav" id="sub-einzelabend">
-  <div id="einzelabend-buttons">
-    <button class="sub-btn" onclick="loadEinzelabend(1)">Abend 1</button>
-    <button class="sub-btn" onclick="loadEinzelabend(2)">Abend 2</button>
-  </div>
+  <div id="einzelabend-buttons"></div>
 </div>
 
 <div class="sub-nav" id="sub-historie">
-  <button class="sub-btn" onclick="switchSub('2526')">2025 / 26</button>
-  <button class="sub-btn" onclick="switchSub('2425')">2024 / 25</button>
-  <button class="sub-btn" onclick="switchSub('2324')">2023 / 24</button>
-  <button class="sub-btn" onclick="switchSub('2223')">2022 / 23</button>
-  <button class="sub-btn" onclick="switchSub('2122')">2021 / 22</button>
+  <button class="sub-btn" onclick="alert('Lade 25/26 aus Excel...')">2025 / 26</button>
+  <button class="sub-btn" onclick="alert('Lade 24/25 aus Excel...')">2024 / 25</button>
 </div>
 
+<!-- HAUPTPANEL -->
 <div class="tab-panel active" id="tab-2627">
-  <div id="loading" style="display:none; text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
+  <div id="loading" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4);">Daten werden aus Dateien geladen…</div>
   
-  <div id="app">
+  <div id="app" style="display:none;">
     <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium">
-        <div class="podium-place place-2">
-          <div class="podium-name">Beat</div>
-          <div class="podium-pokale">4 Pokale</div>
-          <div class="podium-bar">2</div>
-        </div>
-        <div class="podium-place place-1">
-          <div class="podium-name">Wädi</div>
-          <div class="podium-pokale">7 Pokale</div>
-          <div class="podium-bar">1</div>
-        </div>
-        <div class="podium-place place-3">
-          <div class="podium-name">Chrigel</div>
-          <div class="podium-pokale">3 Pokale</div>
-          <div class="podium-bar">3</div>
-        </div>
-      </div>
+      <p class="section-label">Gesamtwertung</p>
+      <div class="podium" id="podium-container"></div>
       <div class="podium-base"></div>
     </div>
 
     <main>
       <div class="chart-section">
         <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
           <div class="chart-canvas-wrap"><canvas id="pokalChart"></canvas></div>
-          <div class="legend" id="pokalLegend" style="justify-content:center; font-size:0.85rem;"></div>
         </div>
       </div>
       
-      <div id="rankings">
-        <div class="cat-section cat-strich">
-          <div class="cat-title">Strich-Wertung <span>(Miese)</span></div>
-          <div class="table-grid">
-            <div class="stat-card">
-              <div class="stat-card-title">Top Verlierer</div>
-              <table>
-                <thead>
-                  <tr><th>Rang</th><th>Name</th><th style="text-align:right;">Punkte</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="rank-1"><td class="rank-cell">1</td><td class="name-cell">Meier</td><td class="val-cell">1420</td></tr>
-                  <tr><td class="rank-cell">2</td><td class="name-cell">Müller</td><td class="val-cell">1100</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      <div class="table-grid" id="daten-tabellen">
+        <!-- Hier landen die Daten-Karten aus der Excel -->
       </div>
     </main>
   </div>
 </div>
 
 <div class="tab-panel" id="tab-einzelabend">
-  <div id="einzelabend-content" style="max-width:1000px; margin:3rem auto; padding:0 1.5rem 4rem;">
-    <div style="text-align:center; color:rgba(247,242,232,0.4); padding:4rem; font-size:0.85rem;">Wähle einen Abend aus der Unterliste aus.</div>
-  </div>
-</div>
-
-<div class="tab-panel" id="tab-historie">
-  <div style="max-width:1000px; margin:3rem auto; padding:0 1.5rem 4rem; text-align:center; color:rgba(247,242,232,0.4);">
-    Wähle eine historische Saison aus dem Menü oben.
+  <div id="einzelabend-content" style="max-width:1000px; margin:3rem auto; padding:0 1.5rem 4rem; text-align:center;">
+    <div style="color:rgba(247,242,232,0.4);">Wähle oben einen spezifischen Jassabend aus.</div>
   </div>
 </div>
 
 <footer>
-  &copy; 2026 Jass-Club Wädi. Alle Rechte vorbehalten.
+  Statistik-App &copy; 2026 | Datenquellen: Statistik_Jassen.xlsx & abende.json
 </footer>
 
+<!-- Externe Bibliotheken für Charts und Excel-Inhalte -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script>
-  // Unvollständigen B64-String abgefangen
-  const EXCEL_B64 = 'UEsDBBQABgAIAAAAIQDbaoGX5wEAAOoKAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 
-  // Einfache Tab-Wechsel-Logik
+<script>
+  // Globale Variablen für deine Daten
+  let jassExcelDaten = null;
+  let abendeJsonDaten = null;
+
+  // 1. DATEN BEIM START LADEN
+  async function ladeDatenQuellen() {
+    try {
+      // JSON laden
+      const jsonResponse = await fetch('abende.json');
+      abendeJsonDaten = await jsonResponse.json();
+      
+      // Excel laden
+      const excelResponse = await fetch('Statistik_Jassen.xlsx');
+      const arrayBuffer = await excelResponse.arrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      jassExcelDaten = XLSX.read(data, {type: 'array'});
+
+      // Oberfläche updaten
+      verarbeiteUndZeigeDaten();
+    } catch (error) {
+      console.error("Fehler beim Laden der Dateien:", error);
+      document.getElementById('loading').innerText = "Fehler: Statistik_Jassen.xlsx oder abende.json nicht gefunden!";
+    }
+  }
+
+  // 2. DATEN VERARBEITEN UND ANZEIGEN
+  function verarbeiteUndZeigeDaten() {
+    // Meta-Daten aus JSON setzen
+    if(abendeJsonDaten) {
+      document.getElementById('meta-datum').innerText = abendeJsonDaten.stand || 'Unbekannt';
+      document.getElementById('meta-abende').innerText = abendeJsonDaten.anzahlAbende || '0';
+      
+      // Buttons für Einzelabende bauen
+      const btnContainer = document.getElementById('einzelabend-buttons');
+      btnContainer.innerHTML = '';
+      if(abendeJsonDaten.liste) {
+        abendeJsonDaten.liste.forEach(abend => {
+          btnContainer.innerHTML += `<button class="sub-btn" onclick="zeigeAbendDetails('${abend.id}')">${abend.name}</button>`;
+        });
+      }
+    }
+
+    // Excel-Tabellen auslesen (Beispielhaft das erste Sheet)
+    if(jassExcelDaten) {
+      const firstSheetName = jassExcelDaten.SheetNames[0];
+      const worksheet = jassExcelDaten.Sheets[firstSheetName];
+      const jsonSheet = XLSX.utils.sheet_to_json(worksheet);
+      
+      // Hier bauen wir die Rangliste basierend auf deiner Excel
+      baueRangliste(jsonSheet);
+    }
+
+    // Lade-Anzeige ausblenden, App einblenden
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    
+    // Test-Chart generieren
+    generiereChart();
+  }
+
+  function baueRangliste(daten) {
+    const tabellenMitte = document.getElementById('daten-tabellen');
+    const podiumContainer = document.getElementById('podium-container');
+    
+    // Falls deine Excel Spalten wie "Name" und "Pokale" hat, füttert das die Ansicht:
+    if(daten.length > 0) {
+      tabellenMitte.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-card-title">Aktuelle Rangliste (Aus Excel gelesen)</div>
+          <table>
+            <thead><tr><th>Rang</th><th>Name</th><th class="val-cell">Wert</th></tr></thead>
+            <tbody>
+              ${daten.map((row, i) => `<tr><td>${i+1}</td><td>${row.Name || 'Spieler'}</td><td class="val-cell">${row.Punkte || row.Pokale || 0}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+
+      // Podium dynamisch mit den ersten 3 Plätzen füllen
+      podiumContainer.innerHTML = `
+        <div class="podium-place place-2"><div class="podium-name">${daten[1]?.Name || 'Zweiter'}</div><div class="podium-bar">2</div></div>
+        <div class="podium-place place-1"><div class="podium-name">${daten[0]?.Name || 'Erster'}</div><div class="podium-bar">1</div></div>
+        <div class="podium-place place-3"><div class="podium-name">${daten[2]?.Name || 'Dritter'}</div><div class="podium-bar">3</div></div>
+      `;
+    }
+  }
+
+  function zeigeAbendDetails(abendId) {
+    const content = document.getElementById('einzelabend-content');
+    content.innerHTML = `<h2>Details für Abend-ID: ${abendId}</h2><p style="color:var(--gold); margin-top:1rem;">Hier können gezielt Zeilen aus der Excel gefiltert werden.</p>`;
+  }
+
+  // Navigation Tabs steuern
   function switchMain(panelId) {
-    // Alle Panels verstecken
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.sub-nav').forEach(n => n.classList.remove('open'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
-    // Aktiven Button markieren
     if(panelId === '2627') {
       document.getElementById('tab-2627').classList.add('active');
       document.getElementById('main-btn-2627').classList.add('active');
@@ -455,49 +243,24 @@
       document.getElementById('tab-einzelabend').classList.add('active');
       document.getElementById('sub-einzelabend').classList.add('open');
       document.getElementById('main-btn-einzelabend').classList.add('active');
-    } else if (panelId === 'historie') {
-      document.getElementById('tab-historie').classList.add('active');
-      document.getElementById('sub-historie').classList.add('open');
-      document.getElementById('main-btn-historie').classList.add('active');
     }
   }
 
-  function switchSub(saisonId) {
-    alert("Historische Daten für Saison " + saisonId + " werden geladen...");
-  }
-
-  function loadEinzelabend(abendNummer) {
-    const content = document.getElementById('einzelabend-content');
-    content.innerHTML = `<h2>Statistiken für Abend ${abendNummer}</h2><p style="margin-top:1rem; color:var(--gold);">Hier werden die Daten aus Excel geladen...</p>`;
-  }
-
-  // Beispiel-Chart initialisieren, damit kein Renderfehler entsteht
-  window.onload = function() {
+  function generiereChart() {
     const ctx = document.getElementById('pokalChart');
-    if(ctx) {
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Abend 1', 'Abend 2', 'Abend 3', 'Abend 4'],
-          datasets: [{
-            label: 'Wädi',
-            data: [1, 3, 4, 7],
-            borderColor: '#c9a84c',
-            tension: 0.1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#f7f2e8' } },
-            x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#f7f2e8' } }
-          },
-          plugins: { legend: { display: false } }
-        }
-      });
-    }
-  };
+    if(!ctx) return;
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Abend 1', 'Abend 2', 'Abend 3'],
+        datasets: [{ label: 'Punkte-Trend', data: [10, 25, 45], borderColor: '#c9a84c', tension: 0.2 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+  }
+
+  // Starte den Ladevorgang, sobald die Seite geladen ist
+  window.onload = ladeDatenQuellen;
 </script>
 </body>
 </html>
