@@ -1432,26 +1432,26 @@ async function loadEinzelabend(filename, label, btn) {
               </tr>
               <tr>
                 <td>Berg</td>
-                <td class="ea-num" style="${berg1>berg2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg1)}</td>
-                <td class="ea-num" style="${berg2>berg1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(berg2)}</td>
+                <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);':''}">${n(berg1)}</td>
+                <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);':''}">${n(berg2)}</td>
                 <td class="ea-num">${absDiff(berg1,berg2)}</td>
               </tr>
               <tr>
                 <td>Mätsch (Anz.)</td>
-                <td class="ea-num" style="${matsch1>matsch2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1)}</td>
-                <td class="ea-num" style="${matsch2>matsch1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2)}</td>
+                <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);':''}">${n(matsch1)}</td>
+                <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);':''}">${n(matsch2)}</td>
                 <td class="ea-num">${absDiff(matsch1,matsch2)}</td>
               </tr>
               <tr>
                 <td>Mätsch (Pkt.)</td>
-                <td class="ea-num" style="${matsch1p>matsch2p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch1p)}</td>
-                <td class="ea-num" style="${matsch2p>matsch1p?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(matsch2p)}</td>
+                <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);':''}">${n(matsch1p)}</td>
+                <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);':''}">${n(matsch2p)}</td>
                 <td class="ea-num">${absDiff(matsch1p,matsch2p)}</td>
               </tr>
               <tr>
                 <td>Pünkt Total</td>
-                <td class="ea-num" style="${punkte1>punkte2?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte1)}</td>
-                <td class="ea-num" style="${punkte2>punkte1?'background:rgba(76,175,61,0.15);color:#4caf7d;font-weight:bold;':''}">${n(punkte2)}</td>
+                <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);':''}">${n(punkte1)}</td>
+                <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);':''}">${n(punkte2)}</td>
                 <td class="ea-num">${absDiff(punkte1,punkte2)}</td>
               </tr>
               <tr>
