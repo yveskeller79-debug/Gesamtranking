@@ -302,11 +302,13 @@ function fmtValWithLabel(label, v) {
   return n.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-function players(row, sp1col) {
+function players(row, sp1col, datecol) {
   const names = [row[sp1col], row[sp1col+1], row[sp1col+2], row[sp1col+3]]
     .map(v => (v && String(v).trim()) || '')
     .filter(Boolean);
-  return names.join(' & ');
+  const dateVal = row[datecol];
+  const isDivergent = dateVal && String(dateVal).trim().toLowerCase() === 'div.';
+  return names.join(isDivergent ? ', ' : ' & ');
 }
 
 function card(label, val, who, meta) {
@@ -325,10 +327,10 @@ function card(label, val, who, meta) {
 
 function buildSection(cls, iconHtml, title, abendRows, saisonRows) {
   const abendCards = abendRows.map(r =>
-    card(r[0], fmtValWithLabel(r[0], r[1]), players(r, 2), fmtDate(r[6]))
+    card(r[0], fmtValWithLabel(r[0], r[1]), players(r, 2, 6), fmtDate(r[6]))
   ).join('');
   const saisonCards = saisonRows.map(r =>
-    card(r[8], fmtValWithLabel(r[8], r[9]), players(r, 10), r[14] ? String(r[14]) : '')
+    card(r[8], fmtValWithLabel(r[8], r[9]), players(r, 10, 14), r[14] ? String(r[14]) : '')
   ).join('');
 
   return `<div class="cat-section ${cls}">
