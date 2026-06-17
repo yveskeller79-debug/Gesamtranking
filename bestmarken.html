@@ -1,0 +1,1059 @@
+<!DOCTYPE html><!-- v1.0 -->
+<html lang="de">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestmarken – Jassstatistik Wädi</title>
+<style>
+
+  :root {
+    --green-dark: #000000;
+    --green-mid: #2d6147;
+    --green-felt: #3a7d5a;
+    --gold: #c9a84c;
+    --cream: #f7f2e8;
+    --red-card: #c0392b;
+    --text: #1a1a1a;
+    --muted: #6b6b5a;
+    --border: #d4c9a8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--green-dark);
+    color: var(--cream);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(160deg, var(--green-mid) 0%, var(--green-dark) 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '♠ ♥ ♦ ♣';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12rem;
+    opacity: 0.03;
+    letter-spacing: 3rem;
+    pointer-events: none;
+  }
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  header p {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(247,242,232,0.5);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* BACK NAV */
+  .back-nav {
+    max-width: 1000px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .back-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(247,242,232,0.4);
+    text-decoration: none;
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .back-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* INTRO LABEL */
+  .intro-label {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(247,242,232,0.3);
+    padding: 2rem 1rem 0;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* CATEGORY SECTIONS */
+  .cat-section {
+    margin-bottom: 3rem;
+  }
+  .cat-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  .cat-title span { opacity: 0.5; font-size: 1rem; }
+  .jass-icon { height: 3rem; width: auto; vertical-align: middle; background: #000; border-radius: 6px; padding: 4px; opacity: 1; }
+  .jass-icon-sm { height: 2rem; margin-right: 0.2rem; }
+
+  /* Per-category colours – identical to main site */
+  .cat-strich .cat-title   { color: #7eb8e8; border-bottom-color: rgba(126,184,232,0.3); }
+  .cat-strich .bm-col-label { color: #7eb8e8; border-bottom-color: rgba(126,184,232,0.3); }
+  .cat-strich .stat-card   { border-color: rgba(126,184,232,0.25); }
+  .cat-strich .stat-card-title { border-bottom-color: rgba(126,184,232,0.2); background: rgba(126,184,232,0.07); color: rgba(126,184,232,0.75); }
+  .cat-strich tr.rank-1 td { background: rgba(126,184,232,0.08); }
+  .cat-strich tr.rank-1 .name-cell { color: #7eb8e8; }
+
+  .cat-puenkt .cat-title   { color: #e87e7e; border-bottom-color: rgba(232,126,126,0.3); }
+  .cat-puenkt .bm-col-label { color: #e87e7e; border-bottom-color: rgba(232,126,126,0.3); }
+  .cat-puenkt .stat-card   { border-color: rgba(232,126,126,0.25); }
+  .cat-puenkt .stat-card-title { border-bottom-color: rgba(232,126,126,0.2); background: rgba(232,126,126,0.07); color: rgba(232,126,126,0.75); }
+  .cat-puenkt tr.rank-1 td { background: rgba(232,126,126,0.08); }
+  .cat-puenkt tr.rank-1 .name-cell { color: #e87e7e; }
+
+  .cat-maetsch .cat-title   { color: #e8b87e; border-bottom-color: rgba(232,184,126,0.3); }
+  .cat-maetsch .bm-col-label { color: #e8b87e; border-bottom-color: rgba(232,184,126,0.3); }
+  .cat-maetsch .stat-card   { border-color: rgba(232,184,126,0.25); }
+  .cat-maetsch .stat-card-title { border-bottom-color: rgba(232,184,126,0.2); background: rgba(232,184,126,0.07); color: rgba(232,184,126,0.75); }
+  .cat-maetsch tr.rank-1 td { background: rgba(232,184,126,0.08); }
+  .cat-maetsch tr.rank-1 .name-cell { color: #e8b87e; }
+
+  .cat-wiise .cat-title   { color: #7ee8a8; border-bottom-color: rgba(126,232,168,0.3); }
+  .cat-wiise .bm-col-label { color: #7ee8a8; border-bottom-color: rgba(126,232,168,0.3); }
+  .cat-wiise .stat-card   { border-color: rgba(126,232,168,0.25); }
+  .cat-wiise .stat-card-title { border-bottom-color: rgba(126,232,168,0.2); background: rgba(126,232,168,0.07); color: rgba(126,232,168,0.75); }
+  .cat-wiise tr.rank-1 td { background: rgba(126,232,168,0.08); }
+  .cat-wiise tr.rank-1 .name-cell { color: #7ee8a8; }
+
+  .cat-uebrig .cat-title   { color: var(--gold); border-bottom-color: rgba(201,168,76,0.3); }
+  .cat-uebrig .bm-col-label { color: var(--gold); border-bottom-color: rgba(201,168,76,0.3); }
+  .cat-uebrig .stat-card   { border-color: rgba(201,168,76,0.2); }
+  .cat-uebrig .stat-card-title { border-bottom-color: rgba(201,168,76,0.15); background: rgba(201,168,76,0.07); color: rgba(201,168,76,0.75); }
+  .cat-uebrig tr.rank-1 td { background: rgba(201,168,76,0.08); }
+  .cat-uebrig tr.rank-1 .name-cell { color: var(--gold); }
+
+  /* BESTMARKEN CARD – two columns: Pro Abend / Pro Saison */
+  .bm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) { .bm-grid { grid-template-columns: 1fr; } }
+
+  .bm-col-label {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: rgba(247,242,232,0.6);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(247,242,232,0.15);
+  }
+
+  /* TABLE GRID (reused from main) */
+  .table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .stat-card-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0.6rem 0.9rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    background: rgba(0,0,0,0.15);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  th {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(247,242,232,0.35);
+    padding: 0.45rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  td {
+    padding: 0.5rem 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  tr:last-child td { border-bottom: none; }
+  .rank-cell { color: rgba(247,242,232,0.4); width: 24px; }
+  .name-cell { font-family: 'Fraunces', serif; font-weight: 400; font-size: 0.9rem; }
+  .val-cell  { text-align: right; color: var(--cream); }
+  .date-cell { text-align: right; color: rgba(247,242,232,0.35); font-size: 0.7rem; white-space: nowrap; }
+  tr.rank-1 .name-cell { font-weight: 700; }
+
+  /* RECORD ROW — single champion row with medal */
+  .bm-record {
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+  }
+  .bm-record-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0.55rem 0.9rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    background: rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bm-record-body {
+    padding: 0.6rem 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .bm-record-who {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .bm-record-val {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .bm-record-meta {
+    font-size: 0.68rem;
+    color: rgba(247,242,232,0.3);
+    margin-top: 0.1rem;
+  }
+  .bm-trophy { font-size: 0.85rem; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.65rem;
+    color: rgba(247,242,232,0.2);
+    letter-spacing: 0.1em;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  /* SCROLL TO TOP */
+  #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 999;
+    border: 1px solid rgba(201,168,76,0.4);
+    outline: none;
+    background-color: rgba(45,97,71,0.9);
+    color: var(--gold);
+    cursor: pointer;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    transition: all 0.2s ease;
+  }
+  #scrollToTopBtn:hover {
+    background-color: var(--gold);
+    color: var(--green-dark);
+    border-color: var(--gold);
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bestmarken</h1>
+  <p>Jassstatistik Wädi — All-time &amp; Pro Saison</p>
+</header>
+
+<div class="back-nav">
+  <a class="back-link" href="index.html">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════
+       STRICH
+  ═══════════════════════════════════════════ -->
+  <div class="cat-section cat-strich">
+    <div class="cat-title">
+      <img src="Eichel.svg" class="jass-icon"> Strich
+    </div>
+
+    <div class="bm-grid">
+      <div>
+        <div class="bm-col-label">Pro Abend</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Striche <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">26</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Berg</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">6</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Differenz (Sieger)</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Chäli</div>
+                <div class="bm-record-meta">08.04.2024</div>
+              </div>
+              <div class="bm-record-val">14</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Schneider</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng, Fuchs, Chäli</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">2</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Kontermatch</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli, Fuchs, Küng, Goonse</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">1</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="bm-col-label">Pro Saison</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Striche <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">240</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Berg</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">58</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">ø Striche / Abend</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">7.74</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">ø Striche / Spiel</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">2.5</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Schneider</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">5</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Kontermatch</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs, Goonse, Küng, Chäli</div>
+                <div class="bm-record-meta">2024/2025</div>
+              </div>
+              <div class="bm-record-val">1</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       PÜNKT
+  ═══════════════════════════════════════════ -->
+  <div class="cat-section cat-puenkt">
+    <div class="cat-title">
+      <img src="Schelle.svg" class="jass-icon"> Pünkt
+    </div>
+
+    <div class="bm-grid">
+      <div>
+        <div class="bm-col-label">Pro Abend</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">27'474</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Differenz</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Chäli</div>
+                <div class="bm-record-meta">20.09.2024</div>
+              </div>
+              <div class="bm-record-val">3'955</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="bm-col-label">Pro Saison</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">279'296</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">ø Punkte / Abend</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2021/2022</div>
+              </div>
+              <div class="bm-record-val">9'762</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">ø Punkte / Spiel</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2022/2023</div>
+              </div>
+              <div class="bm-record-val">2'948.67</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       MÄTSCH
+  ═══════════════════════════════════════════ -->
+  <div class="cat-section cat-maetsch">
+    <div class="cat-title">
+      <img src="Schilte.svg" class="jass-icon"> Mätsch
+    </div>
+
+    <div class="bm-grid">
+      <div>
+        <div class="bm-col-label">Pro Abend</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Anzahl Match <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">8</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte Match</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng &amp; Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">5'140</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="bm-col-label">Pro Saison</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Anzahl Match <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">53</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte Match</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">38'293</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Match 1-fach</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2024/2025</div>
+              </div>
+              <div class="bm-record-val">7</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Match 2-fach</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli &amp; Fuchs</div>
+                <div class="bm-record-meta">2021/22 bzw. 2023/24</div>
+              </div>
+              <div class="bm-record-val">20</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Match 3-fach</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2024/2025</div>
+              </div>
+              <div class="bm-record-val">20</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Match 4-fach</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">18</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       WIISE
+  ═══════════════════════════════════════════ -->
+  <div class="cat-section cat-wiise">
+    <div class="cat-title">
+      <img src="Rose.svg" class="jass-icon"> Wiise
+    </div>
+
+    <div class="bm-grid">
+      <div>
+        <div class="bm-col-label">Pro Abend</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte Weisen <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">2'790</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 20er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">20</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 50er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">6</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 100er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs &amp; Chäli</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">4</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 150er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">21.03.2026</div>
+              </div>
+              <div class="bm-record-val">2</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 200er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Goonse</div>
+                <div class="bm-record-meta">07.04.2025</div>
+              </div>
+              <div class="bm-record-val">2</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Wiisanteil</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Goonse &amp; Chäli</div>
+                <div class="bm-record-meta">18.09.2023</div>
+              </div>
+              <div class="bm-record-val">34.3%</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="bm-col-label">Pro Saison</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Punkte Weisen <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">26'240</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 20er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">196</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Punkte Weisen 20er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">10'780</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 50er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2024/2025</div>
+              </div>
+              <div class="bm-record-val">48</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Punkte Weisen 50er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Küng</div>
+                <div class="bm-record-meta">2024/2025</div>
+              </div>
+              <div class="bm-record-val">7'000</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 100er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">26</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Punkte Weisen 100er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">7'000</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 150er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">6</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Punkte Weisen 150er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">3'150</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anzahl Weisen 200er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">5</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Punkte Weisen 200er</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">3'600</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       ÜBRIGES
+  ═══════════════════════════════════════════ -->
+  <div class="cat-section cat-uebrig">
+    <div class="cat-title">
+      <img src="Eichel.svg" class="jass-icon jass-icon-sm">
+      <img src="Schelle.svg" class="jass-icon jass-icon-sm">
+      <img src="Schilte.svg" class="jass-icon jass-icon-sm">
+      <img src="Rose.svg" class="jass-icon jass-icon-sm">
+      Übriges
+    </div>
+
+    <div class="bm-grid">
+      <div>
+        <div class="bm-col-label">Pro Abend</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Spenden (Verlierer)</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs, Goonse, Chäli</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">140</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anz. Rundensiege</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs &amp; Küng</div>
+                <div class="bm-record-meta">21.09.2024</div>
+              </div>
+              <div class="bm-record-val">6</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">JFK</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">30.09.2024</div>
+              </div>
+              <div class="bm-record-val">5</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Vorhand</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Goonse &amp; Chäli</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">9</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Vorhandanteil</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Goonse, Fuchs, Chäli</div>
+                <div class="bm-record-meta">div.</div>
+              </div>
+              <div class="bm-record-val">100%</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="bm-col-label">Pro Saison</div>
+        <div class="table-grid" style="grid-template-columns:1fr;">
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anz. Tagessiege <span class="bm-trophy">🏆</span></div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">26</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anz. Teilnahmen</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs, Küng, Chäli</div>
+                <div class="bm-record-meta">2025/2026</div>
+              </div>
+              <div class="bm-record-val">33</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Total Spenden</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2021/2022</div>
+              </div>
+              <div class="bm-record-val">1'700</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">ø Spende / Abend</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2021/2022</div>
+              </div>
+              <div class="bm-record-val">62.96</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">Anz. Rundensiege</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Fuchs</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">62</div>
+            </div>
+          </div>
+
+          <div class="bm-record">
+            <div class="bm-record-title">JFK</div>
+            <div class="bm-record-body">
+              <div>
+                <div class="bm-record-who">Chäli</div>
+                <div class="bm-record-meta">2023/2024</div>
+              </div>
+              <div class="bm-record-val">6</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>Jassstatistik Wädi · Bestmarken · All-time &amp; Pro Saison</footer>
+
+<button id="scrollToTopBtn" title="Zurück nach oben">↑</button>
+
+<script>
+  const mybutton = document.getElementById("scrollToTopBtn");
+  window.addEventListener("scroll", () => {
+    mybutton.style.display = (document.documentElement.scrollTop > 400) ? "block" : "none";
+  });
+  mybutton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+
+</body>
+</html>
