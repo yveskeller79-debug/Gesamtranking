@@ -544,11 +544,10 @@
   <div id="einzelabend-buttons"><!-- filled by JS --></div>
 </div>
 <div class="sub-nav" id="sub-historie">
-  <button class="sub-btn" onclick="switchSub('2526')">2025 / 26</button>
-  <button class="sub-btn" onclick="switchSub('2425')">2024 / 25</button>
-  <button class="sub-btn" onclick="switchSub('2324')">2023 / 24</button>
-  <button class="sub-btn" onclick="switchSub('2223')">2022 / 23</button>
-  <button class="sub-btn" onclick="switchSub('2122')">2021 / 22</button>
+  <a class="sub-btn" href="historie_2526.html">2025 / 26</a>
+  <a class="sub-btn" href="historie_2425.html">2024 / 25</a>
+  <a class="sub-btn" href="historie_2324.html">2023 / 24</a>
+  <a class="sub-btn" href="historie_2223.html">2022 / 23</a>
 </div>
 
 <div class="tab-panel active" id="tab-2627">
@@ -588,175 +587,10 @@
 
 </div><!-- end tab-2627 -->
 
-<div class="tab-panel" id="tab-2526">
-  <div id="loading-2526" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
-  <div id="app-2526" style="display:none;">
-    <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium-2526"></div>
-    </div>
-    <main>
-      <div class="chart-section">
-        <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
-          <div class="chart-canvas-wrap"><canvas id="pokalChart-2526"></canvas></div>
-          <div class="legend" id="pokalLegend-2526" style="justify-content:center; font-size:0.85rem;"></div>
-        </div>
-      </div>
-      <div id="rankings-2526"></div>
-      <div class="chart-section">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
-        <div class="tagessiege-grid" id="tagessiegeGrid-2526"></div>
-      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.75rem; font-size:0.85rem; color:rgba(247,242,232,0.7);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>Sieg</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#c9a84c;display:inline-block;"></span>Unentschieden / Abwesend</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#e07070;display:inline-block;"></span>Niederlage</span>
-      </div>
-      </div>
-      <div class="team-section" style="margin:0 0 3rem;">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Teamkonstellationen</div>
-        <div class="team-grid" id="teamGrid-2526"></div>
-        <div style="margin-top:0.75rem;font-size:0.7rem;color:rgba(247,242,232,0.35);text-align:right;">* Unentschieden wird als Sieg gewertet</div>
-      </div>
-    </main>
-  </div>
-</div><!-- end tab-2526 -->
 
-<div class="tab-panel" id="tab-2425">
-  <div id="loading-2425" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
-  <div id="app-2425" style="display:none;">
-    <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium-2425"></div>
-    </div>
-    <main>
-      <div class="chart-section">
-        <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
-          <div class="chart-canvas-wrap"><canvas id="pokalChart-2425"></canvas></div>
-          <div class="legend" id="pokalLegend-2425" style="justify-content:center; font-size:0.85rem;"></div>
-        </div>
-      </div>
-      <div id="rankings-2425"></div>
-      <div class="chart-section">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
-        <div class="tagessiege-grid" id="tagessiegeGrid-2425"></div>
-      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.75rem; font-size:0.85rem; color:rgba(247,242,232,0.7);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>Sieg</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#c9a84c;display:inline-block;"></span>Unentschieden / Abwesend</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#e07070;display:inline-block;"></span>Niederlage</span>
-      </div>
-      </div>
-      <div class="team-section" style="margin:0 0 3rem;">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Teamkonstellationen</div>
-        <div class="team-grid" id="teamGrid-2425"></div>
-        <div style="margin-top:0.75rem;font-size:0.7rem;color:rgba(247,242,232,0.35);text-align:right;">* Unentschieden wird als Sieg gewertet</div>
-      </div>
-    </main>
-  </div>
-</div><!-- end tab-2425 -->
 
-<div class="tab-panel" id="tab-2324">
-  <div id="loading-2324" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
-  <div id="app-2324" style="display:none;">
-    <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium-2324"></div>
-    </div>
-    <main>
-      <div class="chart-section">
-        <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
-          <div class="chart-canvas-wrap"><canvas id="pokalChart-2324"></canvas></div>
-          <div class="legend" id="pokalLegend-2324" style="justify-content:center; font-size:0.85rem;"></div>
-        </div>
-      </div>
-      <div id="rankings-2324"></div>
-      <div class="chart-section">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
-        <div class="tagessiege-grid" id="tagessiegeGrid-2324"></div>
-      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.75rem; font-size:0.85rem; color:rgba(247,242,232,0.7);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>Sieg</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#c9a84c;display:inline-block;"></span>Unentschieden / Abwesend</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#e07070;display:inline-block;"></span>Niederlage</span>
-      </div>
-      </div>
-      <div class="team-section" style="margin:0 0 3rem;">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Teamkonstellationen</div>
-        <div class="team-grid" id="teamGrid-2324"></div>
-        <div style="margin-top:0.75rem;font-size:0.7rem;color:rgba(247,242,232,0.35);text-align:right;">* Unentschieden wird als Sieg gewertet</div>
-      </div>
-    </main>
-  </div>
-</div><!-- end tab-2324 -->
 
-<div class="tab-panel" id="tab-2223">
-  <div id="loading-2223" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
-  <div id="app-2223" style="display:none;">
-    <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium-2223"></div>
-    </div>
-    <main>
-      <div class="chart-section">
-        <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
-          <div class="chart-canvas-wrap"><canvas id="pokalChart-2223"></canvas></div>
-          <div class="legend" id="pokalLegend-2223" style="justify-content:center; font-size:0.85rem;"></div>
-        </div>
-      </div>
-      <div id="rankings-2223"></div>
-      <div class="chart-section">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
-        <div class="tagessiege-grid" id="tagessiegeGrid-2223"></div>
-      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.75rem; font-size:0.85rem; color:rgba(247,242,232,0.7);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>Sieg</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#c9a84c;display:inline-block;"></span>Unentschieden / Abwesend</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#e07070;display:inline-block;"></span>Niederlage</span>
-      </div>
-      </div>
-      <div class="team-section" style="margin:0 0 3rem;">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Teamkonstellationen</div>
-        <div class="team-grid" id="teamGrid-2223"></div>
-        <div style="margin-top:0.75rem;font-size:0.7rem;color:rgba(247,242,232,0.35);text-align:right;">* Unentschieden wird als Sieg gewertet</div>
-      </div>
-    </main>
-  </div>
-</div><!-- end tab-2223 -->
 
-<div class="tab-panel" id="tab-2122">
-  <div id="loading-2122" style="text-align:center; padding:4rem; color:rgba(247,242,232,0.4); font-size:0.85rem; letter-spacing:0.1em;">Daten werden geladen…</div>
-  <div id="app-2122" style="display:none;">
-    <div class="podium-section">
-      <p class="section-label">Gesamtwertung — Anzahl Pokale</p>
-      <div class="podium" id="podium-2122"></div>
-    </div>
-    <main>
-      <div class="chart-section">
-        <div class="chart-wrap">
-          <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Anzahl Pokale</div>
-          <div class="chart-canvas-wrap"><canvas id="pokalChart-2122"></canvas></div>
-          <div class="legend" id="pokalLegend-2122" style="justify-content:center; font-size:0.85rem;"></div>
-        </div>
-      </div>
-      <div id="rankings-2122"></div>
-      <div class="chart-section">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Verlauf Tagessiege</div>
-        <div class="tagessiege-grid" id="tagessiegeGrid-2122"></div>
-      <div style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.75rem; font-size:0.85rem; color:rgba(247,242,232,0.7);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>Sieg</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#c9a84c;display:inline-block;"></span>Unentschieden / Abwesend</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:12px;height:12px;border-radius:50%;background:#e07070;display:inline-block;"></span>Niederlage</span>
-      </div>
-      </div>
-      <div class="team-section" style="margin:0 0 3rem;">
-        <div class="cat-title" style="color:var(--gold); border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:1rem;">Teamkonstellationen</div>
-        <div class="team-grid" id="teamGrid-2122"></div>
-        <div style="margin-top:0.75rem;font-size:0.7rem;color:rgba(247,242,232,0.35);text-align:right;">* Unentschieden wird als Sieg gewertet</div>
-      </div>
-    </main>
-  </div>
-</div><!-- end tab-2122 -->
 
 <div class="tab-panel" id="tab-einzelabend">
   <div id="einzelabend-content" style="max-width:1000px; margin:3rem auto; padding:0 1.5rem 4rem;">
@@ -890,108 +724,6 @@ function buildTsChart(playerName, labels, data) {
     }
   });
 }
-
-// Helper for hardcoded team constellation data (historical seasons)
-function renderTeamKonstellationenHardcoded(gridId, teams) {
-  const grid = document.getElementById(gridId);
-  if (!grid) return;
-  const sorted = [...teams].sort((a, b) => (b.winrate ?? -1) - (a.winrate ?? -1));
-  grid.innerHTML = sorted.map(t => {
-    const wr = t.winrate !== null ? Math.round(t.winrate * 100) : null;
-    const wrClass = wr === null ? '' : wr >= 70 ? 'high' : wr >= 40 ? 'mid' : 'low';
-    const wrColor = wr === null ? 'rgba(255,255,255,0.2)' : wr >= 70 ? '#4caf7d' : wr >= 40 ? '#c9a84c' : '#e07070';
-    const wrText = wr !== null ? wr + '% Win-Rate*' : '—';
-    return `<div class="team-card">
-      <div class="team-names">${t.p1} <span class="vs">&amp;</span> ${t.p2}</div>
-      <div class="team-stats">
-        <span>${t.anzahl} Spiel${t.anzahl !== 1 ? 'e' : ''}</span>
-        <span class="team-winrate ${wrClass}">${wrText}</span>
-      </div>
-      <div class="team-bar-bg">
-        <div class="team-bar-fill" style="width:${wr ?? 0}%;background:${wrColor};"></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// Hardcoded team constellation data — Saison 2025/26
-const TEAM_DATA_2526 = [
-  { p1: 'Fuchs', p2: 'Chäli',  anzahl: 11, winrate: 0.5455 },
-  { p1: 'Fuchs', p2: 'Küng',   anzahl: 11, winrate: 0.4545 },
-  { p1: 'Fuchs', p2: 'Goonse', anzahl: 11, winrate: 0.8182 },
-  { p1: 'Chäli', p2: 'Küng',   anzahl: 11, winrate: 0.3636 },
-  { p1: 'Chäli', p2: 'Zolli',  anzahl: 1,  winrate: 0.0 },
-  { p1: 'Chäli', p2: 'Goonse', anzahl: 8,  winrate: 0.625 },
-  { p1: 'Chäli', p2: 'Schlagi',anzahl: 2,  winrate: 1.0 },
-  { p1: 'Küng',  p2: 'Schlagi',anzahl: 2,  winrate: 0.5 },
-  { p1: 'Küng',  p2: 'Goonse', anzahl: 9,  winrate: 0.5556 },
-];
-
-// Hardcoded team constellation data — Saison 2024/25
-const TEAM_DATA_2425 = [
-  { p1: 'Fuchs',  p2: 'Chäli',   anzahl: 11, winrate: 0.8182 },
-  { p1: 'Fuchs',  p2: 'Küng',    anzahl: 5,  winrate: 0.8 },
-  { p1: 'Fuchs',  p2: 'Schlagi', anzahl: 2,  winrate: 1.0 },
-  { p1: 'Fuchs',  p2: 'Goonse',  anzahl: 11, winrate: 0.4545 },
-  { p1: 'Fuchs',  p2: 'Zolli',   anzahl: 1,  winrate: 1.0 },
-  { p1: 'Fuchs',  p2: 'Disti',   anzahl: 1,  winrate: 1.0 },
-  { p1: 'Chäli',  p2: 'Küng',    anzahl: 12, winrate: 0.4167 },
-  { p1: 'Chäli',  p2: 'Babsi',   anzahl: 1,  winrate: 1.0 },
-  { p1: 'Chäli',  p2: 'Goonse',  anzahl: 6,  winrate: 0.5 },
-  { p1: 'Chäli',  p2: 'Schlagi', anzahl: 1,  winrate: 1.0 },
-  { p1: 'Küng',   p2: 'Schlagi', anzahl: 1,  winrate: 0.0 },
-  { p1: 'Küng',   p2: 'Goonse',  anzahl: 10, winrate: 0.4 },
-  { p1: 'Küng',   p2: 'Zolli',   anzahl: 1,  winrate: 0.0 },
-  { p1: 'Küng',   p2: 'Disti',   anzahl: 1,  winrate: 0.0 },
-];
-
-// Hardcoded team constellation data — Saison 2023/24
-const TEAM_DATA_2324 = [
-  { p1: 'Fuchs',  p2: 'Chäli',   anzahl: 11, winrate: 1.0 },
-  { p1: 'Fuchs',  p2: 'Küng',    anzahl: 8,  winrate: 0.8333 },
-  { p1: 'Fuchs',  p2: 'Schlagi', anzahl: 5,  winrate: 0.5 },
-  { p1: 'Fuchs',  p2: 'Goonse',  anzahl: 6,  winrate: 0.6667 },
-  { p1: 'Fuchs',  p2: 'Phibe',   anzahl: 1,  winrate: 1.0 },
-  { p1: 'Chäli',  p2: 'Küng',    anzahl: 10, winrate: 0.4 },
-  { p1: 'Chäli',  p2: 'Schlagi', anzahl: 1,  winrate: 0.0 },
-  { p1: 'Chäli',  p2: 'Goonse',  anzahl: 8,  winrate: 0.375 },
-  { p1: 'Küng',   p2: 'Schlagi', anzahl: 4,  winrate: 0.25 },
-  { p1: 'Küng',   p2: 'Goonse',  anzahl: 9,  winrate: 0.0 },
-  { p1: 'Goonse', p2: 'Schlagi', anzahl: 1,  winrate: 0.0 },
-];
-
-// Hardcoded team constellation data — Saison 2022/23
-const TEAM_DATA_2223 = [
-  { p1: 'Fuchs',  p2: 'Chäli',   anzahl: 5, winrate: 0.8 },
-  { p1: 'Fuchs',  p2: 'Küng',    anzahl: 5, winrate: 0.4 },
-  { p1: 'Fuchs',  p2: 'Schlagi', anzahl: 4, winrate: 0.75 },
-  { p1: 'Fuchs',  p2: 'Goonse',  anzahl: 5, winrate: 0.6 },
-  { p1: 'Fuchs',  p2: 'Zolli',   anzahl: 1, winrate: 1.0 },
-  { p1: 'Chäli',  p2: 'Küng',    anzahl: 5, winrate: 0.6 },
-  { p1: 'Chäli',  p2: 'Schlagi', anzahl: 3, winrate: 0.3333 },
-  { p1: 'Chäli',  p2: 'Goonse',  anzahl: 6, winrate: 0.3333 },
-  { p1: 'Küng',   p2: 'Schlagi', anzahl: 1, winrate: 1.0 },
-  { p1: 'Küng',   p2: 'Goonse',  anzahl: 5, winrate: 0.2 },
-  { p1: 'Küng',   p2: 'Zolli',   anzahl: 1, winrate: 0.0 },
-  { p1: 'Goonse', p2: 'Mattias', anzahl: 1, winrate: 1.0 },
-];
-
-// Hardcoded team constellation data — Saison 2021/22
-const TEAM_DATA_2122 = [
-  { p1: 'Fuchs',   p2: 'Chäli',   anzahl: 9,  winrate: 0.2222 },
-  { p1: 'Fuchs',   p2: 'Küng',    anzahl: 11, winrate: 0.6364 },
-  { p1: 'Fuchs',   p2: 'Schlagi', anzahl: 3,  winrate: 0.6667 },
-  { p1: 'Fuchs',   p2: 'Goonse',  anzahl: 5,  winrate: 0.4 },
-  { p1: 'Chäli',   p2: 'Küng',    anzahl: 7,  winrate: 0.4286 },
-  { p1: 'Chäli',   p2: 'Schlagi', anzahl: 4,  winrate: 0.25 },
-  { p1: 'Chäli',   p2: 'Goonse',  anzahl: 7,  winrate: 0.4286 },
-  { p1: 'Küng',    p2: 'Schlagi', anzahl: 1,  winrate: 1.0 },
-  { p1: 'Küng',    p2: 'Goonse',  anzahl: 5,  winrate: 0.6 },
-  { p1: 'Küng',    p2: 'Matthias',anzahl: 1,  winrate: 1.0 },
-  { p1: 'Küng',    p2: 'Angi',    anzahl: 1,  winrate: 1.0 },
-  { p1: 'Schlagi', p2: 'Goonse',  anzahl: 1,  winrate: 1.0 },
-  { p1: 'Goonse',  p2: 'Fisi',    anzahl: 1,  winrate: 1.0 },
-];
 
 function renderTeamKonstellationen(rows) {
   let tkIdx = -1;
@@ -1187,23 +919,10 @@ function switchMain(section) {
     document.getElementById('tab-einzelabend').classList.add('active');
   } else if (section === 'historie') {
     document.getElementById('sub-historie').classList.add('open');
-    // Auto-select first history season
-    switchSub('2526');
   }
 }
 
-function switchSub(season) {
-  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-  const btn = document.querySelector(`#sub-historie .sub-btn[onclick="switchSub('${season}')"]`);
-  if (btn) btn.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + season).classList.add('active');
-  if (season === '2526' && !window._2526loaded) { window._2526loaded = true; loadSeason2526(); }
-  if (season === '2425' && !window._2425loaded) { window._2425loaded = true; loadSeason2425(); }
-  if (season === '2324' && !window._2324loaded) { window._2324loaded = true; loadSeason2324(); }
-  if (season === '2223' && !window._2223loaded) { window._2223loaded = true; loadSeason2223(); }
-  if (season === '2122' && !window._2122loaded) { window._2122loaded = true; loadSeason2122(); }
-}
+
 
 
 // ── Einzelabende ─────────────────────────────────────────────────────────────
