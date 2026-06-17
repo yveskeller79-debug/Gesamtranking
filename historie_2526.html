@@ -1126,31 +1126,31 @@ const tsGrid = document.getElementById('tsGrid');
 PLAYERS.forEach(p => {
   const vals = (TS[p] || []).filter(v => v !== null);
   const labels = DATES.slice(0, vals.length);
+  const id = 'ts_' + p.replace(/[^a-z]/gi,'').toLowerCase();
+  const color = COLORS[p];
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'position:relative;height:100px;';
-  const canvas = document.createElement('canvas');
-  wrap.appendChild(canvas);
-  const label = document.createElement('div');
-  label.style.cssText = 'font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,242,232,0.4);margin-bottom:0.3rem;';
-  label.textContent = p;
-  const container = document.createElement('div');
-  container.appendChild(label);
-  container.appendChild(wrap);
-  tsGrid.appendChild(container);
-  new Chart(canvas.getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{ data: vals, backgroundColor: vals.map(v => v===1?COLORS[p]+'99':v===0?'rgba(255,255,255,0.15)':'#e0707055'), borderRadius: 2 }]
-    },
+  wrap.className = 'chart-wrap';
+  wrap.style.marginBottom = '1rem';
+  wrap.innerHTML = `<div class="chart-title" style="color:${color};">${p}</div>
+    <div class="chart-canvas-wrap" style="height:160px;"><canvas id="${id}"></canvas></div>`;
+  tsGrid.appendChild(wrap);
+  const pointColors = vals.map(v => v === 1 ? '#4caf7d' : v === 0 ? '#c9a84c' : '#e07070');
+  new Chart(document.getElementById(id).getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [{ data: vals, borderColor: '#a0a0c0', backgroundColor: 'transparent',
+      tension: 0, pointRadius: 7, pointHoverRadius: 9, pointBackgroundColor: pointColors,
+      pointBorderColor: pointColors, borderWidth: 2 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: c => c.parsed.y===1?'✓ Sieg':c.parsed.y===0?'– Unentsch.':'✗ Niederlage' } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: {
+        label: c => c.parsed.y===1 ? '✓ Sieg' : c.parsed.y===0 ? '– Unentschieden' : '✗ Niederlage'
+      }}},
       scales: {
-        x: { ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:9}}, grid:{color:'rgba(255,255,255,0.05)'} },
+        x: { ticks: { color:'rgba(247,242,232,0.4)', font:{family:'DM Mono',size:10} }, grid:{color:'rgba(255,255,255,0.05)'} },
         y: { min:-1.5, max:1.5,
-          ticks:{color:'rgba(247,242,232,0.4)',font:{family:'DM Mono',size:9},stepSize:1,callback:v=>v===1?'Sieg':v===0?'':v===-1?'Nied.':''},
-          grid:{color:c=>c.tick.value===0?'rgba(247,242,232,0.15)':'rgba(255,255,255,0.05)'}
+          ticks: { color:'rgba(247,242,232,0.45)', font:{family:'DM Mono',size:10}, stepSize:1,
+            callback: v => v===1?'Sieg':v===0?'Unentsch.':v===-1?'Niederlage':'' },
+          grid: { color: c => c.tick.value===0?'rgba(247,242,232,0.15)':'rgba(255,255,255,0.05)' }
         }
       }
     }
