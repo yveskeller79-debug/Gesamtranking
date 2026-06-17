@@ -365,18 +365,21 @@ async function loadBestmarken() {
   }
 
   // Extract rows between two section starts (col A non-empty = header row, skip it)
-  function sectionRows(startRow, endRow) {
-    const result = [];
-    for (let i = startRow + 1; i < endRow && i < rows.length; i++) {
+  function splitBlock(startIdx, endIdx) {
+    const abend  = [];
+    const saison = [];
+    for (let i = startIdx + 1; i < endIdx && i < rows.length; i++) {
       const r = rows[i];
-      // skip sub-header rows (contain 'Wert' in col B / J)
-      if (String(r[1]).trim() === 'Wert' || String(r[9]).trim() === 'Wert') continue;
-      // include if either abend label or saison label is non-empty
-      if ((r[0] && String(r[0]).trim()) || (r[8] && String(r[8]).trim())) {
-        result.push(r);
+      // Abend-Seite (cols A-G): nur wenn A nicht leer und B nicht 'Wert' (Subheader)
+      if (r[0] && String(r[0]).trim() && String(r[1]).trim() !== 'Wert') {
+        abend.push(r);
+      }
+      // Saison-Seite (cols I-O): nur wenn I nicht leer und J nicht 'Wert' (Subheader)
+      if (r[8] && String(r[8]).trim() && String(r[9]).trim() !== 'Wert') {
+        saison.push(r);
       }
     }
-    return result;
+    return { abend, saison };
   }
 
   const idxStrich  = findSection('Striche');
@@ -385,19 +388,6 @@ async function loadBestmarken() {
   const idxWiise   = findSection('Wiise');
   const idxUebrig  = findSection('Übriges');
   const idxEnd     = rows.length;
-
-  // For Mätsch: abend header is at idxMaetsch, saison header appears 1 row later (row 18)
-  // We just read all rows in the block and split by which columns are filled
-  function abendOnly(r)  { return r[0] && String(r[0]).trim(); }
-  function saisonOnly(r) { return r[8] && String(r[8]).trim(); }
-
-  function splitBlock(startIdx, endIdx) {
-    const all = sectionRows(startIdx, endIdx);
-    return {
-      abend:  all.filter(abendOnly),
-      saison: all.filter(saisonOnly)
-    };
-  }
 
   const strich  = splitBlock(idxStrich,  idxPuenkt);
   const puenkt  = splitBlock(idxPuenkt,  idxMaetsch);
