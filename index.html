@@ -892,15 +892,28 @@ async function main() {
   document.getElementById('loading').style.display = 'none';
   document.getElementById('app').style.display = 'block';
 
-  // Confetti for the winner
+  // Konfetti-Regen je nach Rang: 1=Pokal, 2=Silberlöffel, 3=Bronzemünze, 4=Banane
   setTimeout(() => {
-    const winnerColor = PLAYER_COLORS[sorted[0].name] || '#c9a84c';
-    confetti({ particleCount: 120, spread: 70, origin: { y: 0.3 },
-      colors: [winnerColor, '#ffffff', '#c9a84c'] });
-    setTimeout(() => confetti({ particleCount: 80, spread: 50, origin: { x: 0.1, y: 0.4 },
-      colors: [winnerColor, '#ffffff'] }), 400);
-    setTimeout(() => confetti({ particleCount: 80, spread: 50, origin: { x: 0.9, y: 0.4 },
-      colors: [winnerColor, '#ffffff'] }), 700);
+    const pokalShape   = confetti.shapeFromText({ text: '🏆', scalar: 2 });
+    const loeffelShape = confetti.shapeFromText({ text: '🥄', scalar: 2 });
+    const muenzeShape  = confetti.shapeFromText({ text: '🥉', scalar: 2 });
+    const bananeShape  = confetti.shapeFromText({ text: '🍌', scalar: 2 });
+
+    // Rang 1 – Pokalregen (Mitte)
+    confetti({ particleCount: 40, spread: 70, origin: { x: 0.5, y: 0.2 },
+      shapes: [pokalShape], scalar: 3, gravity: 0.6, ticks: 300 });
+
+    // Rang 2 – Silberlöffel-Regen (links)
+    setTimeout(() => confetti({ particleCount: 25, spread: 50, origin: { x: 0.15, y: 0.3 },
+      shapes: [loeffelShape], scalar: 3, gravity: 0.6, ticks: 300 }), 350);
+
+    // Rang 3 – Bronzemünzen-Regen (rechts)
+    setTimeout(() => confetti({ particleCount: 25, spread: 50, origin: { x: 0.85, y: 0.3 },
+      shapes: [muenzeShape], scalar: 3, gravity: 0.6, ticks: 300 }), 700);
+
+    // Rang 4 – Bananenregen (ganz rechts aussen)
+    setTimeout(() => confetti({ particleCount: 20, spread: 40, origin: { x: 0.97, y: 0.35 },
+      shapes: [bananeShape], scalar: 3, gravity: 0.6, ticks: 300 }), 1050);
   }, 500);
 }
 
