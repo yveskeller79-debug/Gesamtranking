@@ -1,14 +1,50 @@
 [
-  { "file": "Einzelabend_07.09.2026.xlsx", "label": "07.09.2026" },
-  { "file": "Einzelabend_04.09.2026.xlsx", "label": "04.09.2026" },
-  { "file": "Einzelabend_17.08.2026.xlsx", "label": "17.08.2026" },
-  { "file": "Einzelabend_03.07.2026.xlsx", "label": "03.07.2026" },
-  { "file": "Einzelabend_15.06.2026.xlsx", "label": "15.06.2026" },
-  { "file": "Einzelabend_08.06.2026.xlsx", "label": "08.06.2026" },
-  { "file": "Einzelabend_05.06.2026.xlsx", "label": "05.06.2026" },
-  { "file": "Einzelabend_01.06.2026.xlsx", "label": "01.06.2026" },
-  { "file": "Einzelabend_16.05.2026.xlsx", "label": "16.05.2026" },
-  { "file": "Einzelabend_11.05.2026.xlsx", "label": "11.05.2026" },
-  { "file": "Einzelabend_30.03.2026.xlsx", "label": "30.03.2026" },
-  { "file": "Einzelabend_21.03.2026.xlsx", "label": "21.03.2026" }
+  {
+    "file": "Einzelabend_07.09.2026.xlsx",
+    "label": "07.09.2026"
+  },
+  {
+    "file": "Einzelabend_04.09.2026.xlsx",
+    "label": "04.09.2026"
+  },
+  {
+    "file": "Einzelabend_17.08.2026.xlsx",
+    "label": "17.08.2026"
+  },
+  {
+    "file": "Einzelabend_03.07.2026.xlsx",
+    "label": "03.07.2026"
+  },
+  {
+    "file": "Einzelabend_15.06.2026.xlsx",
+    "label": "15.06.2026"
+  },
+  {
+    "file": "Einzelabend_08.06.2026.xlsx",
+    "label": "08.06.2026"
+  },
+  {
+    "file": "Einzelabend_05.06.2026.xlsx",
+    "label": "05.06.2026"
+  },
+  {
+    "file": "Einzelabend_01.06.2026.xlsx",
+    "label": "01.06.2026"
+  },
+  {
+    "file": "Einzelabend_16.05.2026.xlsx",
+    "label": "16.05.2026"
+  },
+  {
+    "file": "Einzelabend_11.05.2026.xlsx",
+    "label": "11.05.2026"
+  },
+  {
+    "file": "Einzelabend_30.03.2026.xlsx",
+    "label": "30.03.2026"
+  },
+  {
+    "file": "Einzelabend_21.03.2026.xlsx",
+    "label": "21.03.2026"
+  }
 ]
