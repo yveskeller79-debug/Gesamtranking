@@ -990,7 +990,7 @@ function renderEinzelabendButtons(list, container) {
 async function loadEinzelabend(filename, label, btn) {
   // Switch to Einzelabend tab
   switchMain('einzelabend');
-  document.querySelectorAll('#sub-einzelabend .sub-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#einzelabend-buttons .tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-einzelabend').classList.add('active');
 
