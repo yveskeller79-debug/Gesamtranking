@@ -881,7 +881,8 @@ async function main() {
       c('Anzahl Teilnahmen',   'Anz. Teilnahmen') +
       c('Total Spenden',       'Total Spenden') +
       c('ø Spende / Abend',    'ø Spende/Abend') +
-      c('JFK',                 'JFK'));
+      c('JFK',                 'JFK') +
+      c('Total Aufstehen',     'Total Aufstehen'));
 
   const tsIdx = rows.findIndex(r => String(r[0]).trim()==='Verlauf Tagessiege');
   // header row at tsIdx+1 has col numbers, player data starts at tsIdx+2
