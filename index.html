@@ -1082,6 +1082,13 @@ async function loadEinzelabend(filename, label, btn) {
     const pct = v => (v === '' || v === null) ? '—' : Math.round(Number(v)*100) + '%';
     // winner = team with more Striche; diff = winner - loser (can be negative)
     const w1wins = striche1 >= striche2;
+    // Umgekehrte Farblogik (weniger ist besser), z.B. für Aufstehen
+    const absDiffInv = (a, b) => {
+      const d = (w1wins ? Math.round(Number(a)) - Math.round(Number(b)) : Math.round(Number(b)) - Math.round(Number(a)));
+      if (!isFinite(d) || d === 0) return '<span>0</span>';
+      if (d > 0) return '<span class="ea-neg">+' + d.toLocaleString('de-CH') + '</span>';
+      return '<span class="ea-pos">' + d.toLocaleString('de-CH') + '</span>';
+    };
     const absDiff = (a, b) => {
       const va = Math.round(Number(a));
       const vb = Math.round(Number(b));
@@ -1209,13 +1216,13 @@ async function loadEinzelabend(filename, label, btn) {
                 <td>Aufstehen</td>
                 <td class="ea-num">${n(auf1)}</td>
                 <td class="ea-num">${n(auf2)}</td>
-                <td class="ea-num">${absDiff(auf1,auf2)}</td>
+                <td class="ea-num">${absDiffInv(auf1,auf2)}</td>
               </tr>
               <tr>
                 <td>Spenden</td>
                 <td class="ea-num">${n(spenden1)}</td>
                 <td class="ea-num">${n(spenden2)}</td>
-                <td class="ea-num">${absDiff(spenden1,spenden2)}</td>
+                <td class="ea-num">${absDiffInv(spenden1,spenden2)}</td>
               </tr>
               <tr>
                 <td>Anteil Wiise</td>
