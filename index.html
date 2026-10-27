@@ -1035,6 +1035,7 @@ async function loadEinzelabend(filename, label, btn) {
     const striche1 = rows[16][2], striche2 = rows[16][4];
     const matsch1 = rows[19][2], matsch1p = rows[19][3], matsch2 = rows[19][4], matsch2p = rows[19][5];
     const berg1 = rows[20][2], berg2 = rows[20][4];
+    const auf1 = (rows[21]||[])[2], auf2 = (rows[21]||[])[4];
     const punkte1 = rows[22][2], punkte2 = rows[22][4];
     const spenden1 = rows[39][2], spenden2 = rows[39][4];
 
@@ -1203,6 +1204,12 @@ async function loadEinzelabend(filename, label, btn) {
                 <td class="ea-num" style="${striche1>striche2?'background:rgba(76,175,61,0.15);':''}">${n(punkte1)}</td>
                 <td class="ea-num" style="${striche2>striche1?'background:rgba(76,175,61,0.15);':''}">${n(punkte2)}</td>
                 <td class="ea-num">${absDiff(punkte1,punkte2)}</td>
+              </tr>
+              <tr>
+                <td>Aufstehen</td>
+                <td class="ea-num">${n(auf1)}</td>
+                <td class="ea-num">${n(auf2)}</td>
+                <td class="ea-num">${absDiff(auf1,auf2)}</td>
               </tr>
               <tr>
                 <td>Spenden</td>
